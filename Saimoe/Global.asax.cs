@@ -18,6 +18,8 @@ namespace Saimoe
 
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+
+            Microsoft.Web.Optimization.BundleTable.Bundles.EnableDefaultBundles();
         }
     }
 }
