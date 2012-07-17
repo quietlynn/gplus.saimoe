@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Microsoft.Web.Optimization;
 
 namespace Saimoe
 {
@@ -19,7 +20,14 @@ namespace Saimoe
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
 
-            Microsoft.Web.Optimization.BundleTable.Bundles.EnableDefaultBundles();
+            BundleTable.Bundles.EnableDefaultBundles();
+            var bootstrapOrdering = new BundleFileSetOrdering("bootstrap");
+
+            // Responsive plugin should be loaded later than the main css.
+            bootstrapOrdering.Files.Add("bootstrap.css");
+            bootstrapOrdering.Files.Add("bootstrap-responsive.css");
+
+            BundleTable.Bundles.FileSetOrderList.Add(bootstrapOrdering);
         }
     }
 }
