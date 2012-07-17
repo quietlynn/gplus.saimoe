@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
-
 <html>
 <head>
+    <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
     <link href="@Microsoft.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/Content/css", false)" rel="stylesheet" type="text/css" />
@@ -9,8 +9,57 @@
     <script type="text/javascript" src="@Microsoft.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/Scripts/js", false)"></script>
 </head>
 <body>
-    <div>
+    <header>
+        <nav class="navbar navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+                    <h1>
+                        @Html.ActionLink("G+ Moe League", "Index", "Home", null, new { @class = "brand" })
+                    </h1>
+                    <div class="nav-collapse">
+                        <ul class="nav">
+                            @helper NavItem(string linkText, string actionName, string controllerName, bool? active = null) {
+                                if (active == null) {
+                                    active = this.ViewContext.RouteData.Values["Action"] == actionName &&
+                                        this.ViewContext.RouteData.Values["Controller"] == controllerName;
+                                }
+                                var className = active.Value ? "active" : null;
+                                <li class="@className">
+                                    @Html.ActionLink(linkText, actionName, controllerName)
+                                </li>
+                            }
+                            @NavItem("Home", "Index", "Home")
+                            @NavItem("Join", "Index", "Join")
+                            @NavItem("Vote", "Index", "Vote")
+                            @NavItem("Results", "ResultList", "Vote")
+                        </ul>
+                        <ul class="nav pull-right">
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    Account
+                                    <b class="caret"></b>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    @NavItem("Login", "Login", "Account")
+                                    @NavItem("Logout", "Logout", "Account")
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <section id="main">
         @RenderBody()
-    </div>
+    </section>
+    <footer>
+    
+    </footer>
 </body>
 </html>
