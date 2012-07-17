@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Saimoe", "Saimoe\Saimoe.csproj", "{6797671E-1B50-404F-B43F-16DD43393554}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Saimoe.Tests", "Saimoe.Tests\Saimoe.Tests.csproj", "{1341FF4A-F215-4AF7-824C-31BC4180D756}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Document", "Document", "{41468B9F-1704-41A5-91D4-A1321DBF849A}"
+	ProjectSection(SolutionItems) = preProject
+		Document\功能需求文档.txt = Document\功能需求文档.txt
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6797671E-1B50-404F-B43F-16DD43393554}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6797671E-1B50-404F-B43F-16DD43393554}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6797671E-1B50-404F-B43F-16DD43393554}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6797671E-1B50-404F-B43F-16DD43393554}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1341FF4A-F215-4AF7-824C-31BC4180D756}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1341FF4A-F215-4AF7-824C-31BC4180D756}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1341FF4A-F215-4AF7-824C-31BC4180D756}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1341FF4A-F215-4AF7-824C-31BC4180D756}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
