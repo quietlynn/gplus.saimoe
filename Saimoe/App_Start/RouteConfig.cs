@@ -25,6 +25,20 @@ namespace Saimoe
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
+
+            // TODO: (Korepwx) On my laptop, I cannot make the Url Routing work. So the following is not tested.
+
+            routes.MapRoute(
+                name: "oauth2callback",
+                url: "oauth2callback",
+                defaults: new { controller = "OAuth", action = "GoogleCallback", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
+                name: "oauth2login",
+                url: "oauth2login",
+                defaults: new { controller = "OAuth", action = "GoogleLogin", id = UrlParameter.Optional }
+            );
         }
     }
 }
