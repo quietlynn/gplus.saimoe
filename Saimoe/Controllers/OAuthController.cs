@@ -120,7 +120,7 @@ namespace Saimoe.Controllers
 
         public ActionResult Logout()
         {
-            Session.Remove("GooglePlusID");
+            FormsAuthentication.SignOut();
             Session.Remove("GoogleUser");
             
             return RedirectToAction("Index", "Home");
