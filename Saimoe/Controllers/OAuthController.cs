@@ -110,7 +110,6 @@ namespace Saimoe.Controllers
             }
 
             var profile = JsonConvert.DeserializeObject<GoogleUser>(responseJson);
-            var debugString = JsonConvert.SerializeObject(profile);
 
             FormsAuthentication.SetAuthCookie(profile.Id, createPersistentCookie: false);
             Session["GoogleUser"] = profile;
