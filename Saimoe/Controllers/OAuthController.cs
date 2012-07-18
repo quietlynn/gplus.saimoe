@@ -13,6 +13,8 @@ using System.Web;
 using System.Web.Mvc;
 using Newtonsoft.Json;
 using Saimoe.Models;
+using System.Web.Security;
+using System.Collections.Specialized;
 
 namespace Saimoe.Controllers
 {
@@ -41,37 +43,46 @@ namespace Saimoe.Controllers
 
         public ActionResult Login()
         {
-            var url = "https://accounts.google.com/o/oauth2/auth?" +
-                "scope={0}&state={1}&redirect_uri={2}&response_type=code&client_id={3}&approval_prompt=auto";
-
-            var scope = string.Join("+", new string[] {
-                HttpUtility.UrlEncode("https://www.googleapis.com/auth/plus.me")
+            var scope = string.Join(" ", new string[] {
+                "https://www.googleapis.com/auth/plus.me"
             });
-            var state = "/profile";
 
-            var redirectUri = HttpUtility.UrlEncode(getGoogleCallbackUrl());
-            var cilentId = HttpUtility.UrlEncode(OAuthSettings.ClientID);
+            // FormsAuthentication.GetRedirectUrl accepts any non-null string for the first param,
+            // and does not use the second param at all.
+            var state = FormsAuthentication.GetRedirectUrl("", true);
 
-            return Redirect(string.Format(url, scope, state, redirectUri, cilentId));
+            // A trick to get a query string builder. Hacky but elegant.
+            var queryString = System.Web.HttpUtility.ParseQueryString(string.Empty);
+            queryString["response_type"] = "code";
+            queryString["approval_prompt"] = "auto";
+            queryString["scope"] = scope;
+            queryString["state"] = state;
+            queryString["redirect_uri"] = getGoogleCallbackUrl();
+            queryString["client_id"] = OAuthSettings.ClientID;
+
+            // Note: queryString.ToString() is overridden internally to return application/x-www-form-urlencoded.
+            var url = "https://accounts.google.com/o/oauth2/auth?" + queryString.ToString();
+            return Redirect(url);
         }
 
-        public ActionResult Callback()
+        public ActionResult Callback(string code, string state)
         {
             var webRequest = (HttpWebRequest)WebRequest.Create("https://accounts.google.com/o/oauth2/token");
             webRequest.Method = "POST";
             webRequest.ContentType = "application/x-www-form-urlencoded";
 
-            // 参考 https://developers.google.com/accounts/docs/OAuth2WebServer
-            var postData = string.Format("code={0}&client_id={1}&client_secret={2}&redirect_uri={3}" +
-                "&grant_type=authorization_code",
-                Request.QueryString["code"],
-                    OAuthSettings.ClientID,
-                    OAuthSettings.ClientSecret,
-                    getGoogleCallbackUrl());
-
+            // A trick to get a query string builder. Hacky but elegant.
+            var queryString = System.Web.HttpUtility.ParseQueryString(string.Empty);
+            queryString["code"] = code;
+            queryString["client_id"] = OAuthSettings.ClientID;
+            queryString["client_secret"] = OAuthSettings.ClientSecret;
+            queryString["redirect_uri"] = getGoogleCallbackUrl();
+            queryString["grant_type"] = "authorization_code";
+            
             using (var sw = new StreamWriter(webRequest.GetRequestStream()))
             {
-                sw.Write(postData);
+                // Note: queryString.ToString() is overridden internally to return application/x-www-form-urlencoded.
+                sw.Write(queryString.ToString());
             }
 
             var responseJson = "";
@@ -98,25 +109,21 @@ namespace Saimoe.Controllers
                 }
             }
 
-            // 取得用户的 Profile 数据。
-            // Deserialize this object: https://developers.google.com/+/api/latest/people#resource
             var profile = JsonConvert.DeserializeObject<GoogleUser>(responseJson);
             var debugString = JsonConvert.SerializeObject(profile);
 
-            // TODO: Please store the profile into Database!
+            FormsAuthentication.SetAuthCookie(profile.Id, createPersistentCookie: false);
+            Session["GoogleUser"] = profile;
 
-            // 写入登陆信息，并返回首页。
-            Session["GooglePlusID"] = profile.Id;
-
-            // TODO: Replace following URL with valid HomePage!
-            return Redirect("http://blog.korepwx.com/");
+            return Redirect(state);
         }
 
         public ActionResult Logout()
         {
             Session.Remove("GooglePlusID");
-            // TODO: Replace following URL with valid HomePage!
-            return Redirect("http://blog.korepwx.com/");
+            Session.Remove("GoogleUser");
+            
+            return RedirectToAction("Index", "Home");
         }
     }
 }

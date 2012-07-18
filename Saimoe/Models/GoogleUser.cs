@@ -6,7 +6,8 @@ using System.Web;
 namespace Saimoe.Models
 {
     /// <summary>
-    /// The Google User object returned by Google+ API.
+    /// The Google User object returned by Google+ API, as defined by 
+    /// https://developers.google.com/+/api/latest/people#resource
     /// </summary>
     public class GoogleUser
     {
