@@ -25,5 +25,12 @@ namespace Saimoe.Controllers
             return result;
         }
 
+        // 
+        // (By Korepwx) Show the logged Google User Id
+        public ActionResult UserId()
+        {
+            return Content(string.Format("Google User ID = {0}", Session["GooglePlusID"]));
+        }
+
     }
 }
