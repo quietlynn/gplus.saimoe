@@ -1,0 +1,157 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Saimoe.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+  <EntityContainer Name="SaimoeStoreContainer">
+    <EntitySet Name="Contestants" EntityType="Saimoe.Store.Contestants" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Profiles" EntityType="Saimoe.Store.Profiles" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="ContestantProfile" Association="Saimoe.Store.ContestantProfile">
+      <End Role="Contestant" EntitySet="Contestants" />
+      <End Role="Profile" EntitySet="Profiles" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Contestants">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="GooglePlusId" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="LastLoginDate" Type="datetime" Nullable="false" />
+    <Property Name="Profile_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Profiles">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Interest" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Characteristic" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ActingCute" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="RegistrationPost" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Tagline" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="JoinedYear" Type="smallint" Nullable="false" />
+    <Property Name="JoinedMonth" Type="tinyint" Nullable="false" />
+  </EntityType>
+  <Association Name="ContestantProfile">
+    <End Role="Contestant" Type="Saimoe.Store.Contestants" Multiplicity="*" />
+    <End Role="Profile" Type="Saimoe.Store.Profiles" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Profile">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Contestant">
+        <PropertyRef Name="Profile_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2008/09/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="Saimoe.Models.EF" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
+        <EntityContainer Name="SaimoeContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Contestants" EntityType="Saimoe.Models.EF.Contestant" />
+          <EntitySet Name="Profiles" EntityType="Saimoe.Models.EF.Profile" />
+          <AssociationSet Name="ContestantProfile" Association="Saimoe.Models.EF.ContestantProfile">
+            <End Role="Contestant" EntitySet="Contestants" />
+            <End Role="Profile" EntitySet="Profiles" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Contestant">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="GooglePlusId" Nullable="false" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="false" />
+          <Property Type="DateTime" Name="LastLoginDate" Nullable="false" />
+          <NavigationProperty Name="Profile" Relationship="Saimoe.Models.EF.ContestantProfile" FromRole="Contestant" ToRole="Profile" />
+        </EntityType>
+        <EntityType Name="Profile">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Interest" Nullable="false" />
+          <Property Type="String" Name="Characteristic" Nullable="false" />
+          <Property Type="String" Name="ActingCute" Nullable="false" />
+          <Property Type="String" Name="RegistrationPost" Nullable="true" />
+          <Property Type="String" Name="Tagline" Nullable="false" />
+          <Property Type="Int16" Name="JoinedYear" Nullable="false" />
+          <Property Type="Byte" Name="JoinedMonth" Nullable="false" />
+          <NavigationProperty Name="Contestant" Relationship="Saimoe.Models.EF.ContestantProfile" FromRole="Profile" ToRole="Contestant" />
+        </EntityType>
+        <Association Name="ContestantProfile">
+          <End Type="Saimoe.Models.EF.Contestant" Role="Contestant" Multiplicity="1" />
+          <End Type="Saimoe.Models.EF.Profile" Role="Profile" Multiplicity="1" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="SaimoeStoreContainer" CdmEntityContainer="SaimoeContext">
+    <EntitySetMapping Name="Contestants">
+      <EntityTypeMapping TypeName="IsTypeOf(Saimoe.Models.EF.Contestant)">
+        <MappingFragment StoreEntitySet="Contestants">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="GooglePlusId" ColumnName="GooglePlusId" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="LastLoginDate" ColumnName="LastLoginDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Profiles">
+      <EntityTypeMapping TypeName="IsTypeOf(Saimoe.Models.EF.Profile)">
+        <MappingFragment StoreEntitySet="Profiles">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Interest" ColumnName="Interest" />
+          <ScalarProperty Name="Characteristic" ColumnName="Characteristic" />
+          <ScalarProperty Name="ActingCute" ColumnName="ActingCute" />
+          <ScalarProperty Name="RegistrationPost" ColumnName="RegistrationPost" />
+          <ScalarProperty Name="Tagline" ColumnName="Tagline" />
+          <ScalarProperty Name="JoinedYear" ColumnName="JoinedYear" />
+          <ScalarProperty Name="JoinedMonth" ColumnName="JoinedMonth" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="ContestantProfile" TypeName="Saimoe.Models.EF.ContestantProfile" StoreEntitySet="Contestants">
+      <EndProperty Name="Profile">
+        <ScalarProperty Name="Id" ColumnName="Profile_Id" />
+      </EndProperty>
+      <EndProperty Name="Contestant">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram Name="Saimoe" >
+        <EntityTypeShape EntityType="Saimoe.Models.EF.Contestant" Width="1.5" PointX="0.75" PointY="0.5" Height="1.779012858072917" />
+        <EntityTypeShape EntityType="Saimoe.Models.EF.Profile" Width="1.5" PointX="3.125" PointY="0.5" Height="2.7341113281249996" />
+        <AssociationConnector Association="Saimoe.Models.EF.ContestantProfile">
+          <ConnectorPoint PointX="2.25" PointY="1.4850162760416668" />
+          <ConnectorPoint PointX="3.125" PointY="1.4850162760416668" />
+        </AssociationConnector>
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
