@@ -21,7 +21,6 @@ namespace Saimoe.Controllers
     public class OAuthSettings
     {
         // TODO: Please provide formal OAuth 2.0 AppKey and Redirect Url!
-        public static readonly string RedirectUrl = "http://localhost/saimoe/oauth2callback";
         public static readonly string ClientID = "136777643268.apps.googleusercontent.com";
         public static readonly string ClientSecret = "-3GRfU45EoKsH2zftBQWjhLZ";
         public static readonly string ApiKey = "AIzaSyCWL9iC3r2BFjWBin70cxQWBtJmyvhEhRw";
@@ -34,18 +33,22 @@ namespace Saimoe.Controllers
     /// </summary>
     public class OAuthController : Controller
     {
+        protected string getGoogleCallbackUrl()
+        {
+            return new Uri(Request.Url, Url.Action("GoogleCallback")).AbsoluteUri;
+        }
+
         public ActionResult GoogleLogin()
         {
             var url = "https://accounts.google.com/o/oauth2/auth?" +
                 "scope={0}&state={1}&redirect_uri={2}&response_type=code&client_id={3}&approval_prompt=auto";
 
             var scope = string.Join("+", new string[] {
-                //HttpUtility.UrlEncode("https://www.googleapis.com/auth/userinfo.email"),
-                HttpUtility.UrlEncode("https://www.googleapis.com/auth/userinfo.profile")
+                HttpUtility.UrlEncode("https://www.googleapis.com/auth/plus.me")
             });
             var state = "/profile";
 
-            var redirectUri = HttpUtility.UrlEncode(OAuthSettings.RedirectUrl);
+            var redirectUri = HttpUtility.UrlEncode(getGoogleCallbackUrl());
             var cilentId = HttpUtility.UrlEncode(OAuthSettings.ClientID);
 
             return Redirect(string.Format(url, scope, state, redirectUri, cilentId));
@@ -53,26 +56,23 @@ namespace Saimoe.Controllers
 
         public ActionResult GoogleCallback()
         {
-            // 由于是https，这里必须要转换为HttpWebRequest
-            var webRequest = WebRequest.Create("https://accounts.google.com/o/oauth2/token") as HttpWebRequest;
+            var webRequest = (HttpWebRequest)WebRequest.Create("https://accounts.google.com/o/oauth2/token");
             webRequest.Method = "POST";
             webRequest.ContentType = "application/x-www-form-urlencoded";
 
-            // 参考https://developers.google.com/accounts/docs/OAuth2WebServer
+            // 参考 https://developers.google.com/accounts/docs/OAuth2WebServer
             var postData = string.Format("code={0}&client_id={1}&client_secret={2}&redirect_uri={3}" +
                 "&grant_type=authorization_code",
                 Request.QueryString["code"],
                     OAuthSettings.ClientID,
                     OAuthSettings.ClientSecret,
-                    OAuthSettings.RedirectUrl);
+                    getGoogleCallbackUrl());
 
-            // 在HTTP POST请求中传递参数
             using (var sw = new StreamWriter(webRequest.GetRequestStream()))
             {
                 sw.Write(postData);
             }
 
-            // 发送请求，并获取服务器响应
             var responseJson = "";
             using (var response = webRequest.GetResponse())
             {
@@ -82,11 +82,10 @@ namespace Saimoe.Controllers
                 }
             }
 
-            // 通过Json.NET对服务器返回的json字符串进行反序列化，得到access_token
             var accessToken = JsonConvert.DeserializeAnonymousType(responseJson, new { access_token = "" }).access_token;
 
             // 通过 AccessToken 拿到用户信息
-            webRequest = WebRequest.Create("https://www.googleapis.com/oauth2/v1/userinfo") as HttpWebRequest;
+            webRequest = (HttpWebRequest)WebRequest.Create("https://www.googleapis.com/plus/v1/people/me");
             webRequest.Method = "GET";
             webRequest.Headers.Add("Authorization", "Bearer " + accessToken);
 
@@ -99,15 +98,9 @@ namespace Saimoe.Controllers
             }
 
             // 取得用户的 Profile 数据。
-            var profile = JsonConvert.DeserializeAnonymousType(responseJson, new
-            {
-                Id = "",        // The Google+ Profile ID
-                Name = "",      // The Google+ FullName.
-                Link = "",      // The Google+ Profile URI.
-                Picture = "",   // The Google+ Avatar URI.
-                Gender = "",    // The Google+ User Gender. (e.g. male)
-                Locale = ""     // The Google+ Language. (e.g. zh-CN)
-            });
+            // TODO: Deserialize this object: https://developers.google.com/+/api/latest/people#resource
+
+            var profile = "";
 
             // TODO: Please store the profile into Database!
 
