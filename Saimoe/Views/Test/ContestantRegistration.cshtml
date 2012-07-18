@@ -5,8 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>ContestantRegistration</h2>
-
+<div class="container">
 @using (Html.BeginForm()) {
     @Html.ValidationSummary(true)
 
@@ -54,13 +53,12 @@
         </div>
 
         <p>
-            <input type="submit" value="Create" />
+            <input type="submit" value="Submit" class="btn btn-primary" />
         </p>
     </fieldset>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
 </div>
+
 
 
