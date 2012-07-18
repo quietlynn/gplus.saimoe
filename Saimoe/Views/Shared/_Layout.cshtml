@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
-    <title>@ViewBag.Title</title>
+    <title>@ViewBag.Title - @WebResources.SiteName</title>
     <link href="@Microsoft.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/Content/css", false)" rel="stylesheet" type="text/css" />
     <link href="@Microsoft.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/Content/themes/base/css", false)" rel="stylesheet" type="text/css" />
     <script type="text/javascript" src="@Microsoft.Web.Optimization.BundleTable.Bundles.ResolveBundleUrl("~/Scripts/js", false)"></script>
@@ -56,6 +56,7 @@
         </nav>
     </header>
     <section id="main">
+        <h2>@ViewBag.Title</h2>
         @RenderBody()
     </section>
     <footer>
