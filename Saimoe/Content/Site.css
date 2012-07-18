@@ -6,3 +6,14 @@
     margin-top: 60px;
     margin-left: 20px;
 }
+
+/* Append "*" to required fields */
+[data-val-required] ~ .field-validation-valid:before {
+    color: red;
+    content : "*";
+}
+
+.field-validation-error 
+{
+    color: red;
+}

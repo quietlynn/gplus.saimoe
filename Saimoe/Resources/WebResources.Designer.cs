@@ -106,6 +106,15 @@ namespace Saimoe.Resources {
         }
         
         /// <summary>
+        ///   查找类似 Contestant Profile 的本地化字符串。
+        /// </summary>
+        public static string ContestantProfile {
+            get {
+                return ResourceManager.GetString("ContestantProfile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Interest 的本地化字符串。
         /// </summary>
         public static string Interest {
@@ -120,6 +129,51 @@ namespace Saimoe.Resources {
         public static string InterestDescription {
             get {
                 return ResourceManager.GetString("InterestDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Join the contest 的本地化字符串。
+        /// </summary>
+        public static string JoinContest {
+            get {
+                return ResourceManager.GetString("JoinContest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Date of joining 的本地化字符串。
+        /// </summary>
+        public static string JoiningDate {
+            get {
+                return ResourceManager.GetString("JoiningDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 When did you join Google+? 的本地化字符串。
+        /// </summary>
+        public static string JoiningDateDescription {
+            get {
+                return ResourceManager.GetString("JoiningDateDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Month 的本地化字符串。
+        /// </summary>
+        public static string JoiningDateMonth {
+            get {
+                return ResourceManager.GetString("JoiningDateMonth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Year 的本地化字符串。
+        /// </summary>
+        public static string JoiningDateYear {
+            get {
+                return ResourceManager.GetString("JoiningDateYear", resourceCulture);
             }
         }
         
