@@ -118,6 +118,7 @@
     </Compile>
     <Compile Include="HtmlHelperExtensions\ModelMetadataExtensions.cs" />
     <Compile Include="Models\ContestantRegistration.cs" />
+    <Compile Include="Models\GoogleUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\WebResources.Designer.cs">
       <AutoGen>True</AutoGen>
