@@ -6,6 +6,7 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Microsoft.Web.Optimization;
+using Saimoe.Infra;
 
 namespace Saimoe
 {
@@ -28,6 +29,10 @@ namespace Saimoe
             bootstrapOrdering.Files.Add("bootstrap-responsive.css");
 
             BundleTable.Bundles.FileSetOrderList.Add(bootstrapOrdering);
+
+
+            //will create a warmup util
+            ModelMappingUtil.RegisterMapping();
         }
     }
 }

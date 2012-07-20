@@ -19,8 +19,6 @@ namespace Saimoe.Infra
         public static void RegisterMapping()
         {
             var contestantMap = Mapper.CreateMap<ContestantRegistration, ContestantProfile>();
-            
-
         }
     }
 }

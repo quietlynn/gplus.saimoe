@@ -12,6 +12,9 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using Newtonsoft.Json;
+using Saimoe.Models;
+using System.Web.Security;
+using System.Collections.Specialized;
 
 namespace Saimoe.Controllers
 {
@@ -35,42 +38,51 @@ namespace Saimoe.Controllers
     {
         protected string getGoogleCallbackUrl()
         {
-            return new Uri(Request.Url, Url.Action("GoogleCallback")).AbsoluteUri;
+            return new Uri(Request.Url, Url.Action("Callback")).AbsoluteUri;
         }
 
-        public ActionResult GoogleLogin()
+        public ActionResult Login()
         {
-            var url = "https://accounts.google.com/o/oauth2/auth?" +
-                "scope={0}&state={1}&redirect_uri={2}&response_type=code&client_id={3}&approval_prompt=auto";
-
-            var scope = string.Join("+", new string[] {
-                HttpUtility.UrlEncode("https://www.googleapis.com/auth/plus.me")
+            var scope = string.Join(" ", new string[] {
+                "https://www.googleapis.com/auth/plus.me"
             });
-            var state = "/profile";
 
-            var redirectUri = HttpUtility.UrlEncode(getGoogleCallbackUrl());
-            var cilentId = HttpUtility.UrlEncode(OAuthSettings.ClientID);
+            // FormsAuthentication.GetRedirectUrl accepts any non-null string for the first param,
+            // and does not use the second param at all.
+            var state = FormsAuthentication.GetRedirectUrl("", true);
 
-            return Redirect(string.Format(url, scope, state, redirectUri, cilentId));
+            // A trick to get a query string builder. Hacky but elegant.
+            var queryString = System.Web.HttpUtility.ParseQueryString(string.Empty);
+            queryString["response_type"] = "code";
+            queryString["approval_prompt"] = "auto";
+            queryString["scope"] = scope;
+            queryString["state"] = state;
+            queryString["redirect_uri"] = getGoogleCallbackUrl();
+            queryString["client_id"] = OAuthSettings.ClientID;
+
+            // Note: queryString.ToString() is overridden internally to return application/x-www-form-urlencoded.
+            var url = "https://accounts.google.com/o/oauth2/auth?" + queryString.ToString();
+            return Redirect(url);
         }
 
-        public ActionResult GoogleCallback()
+        public ActionResult Callback(string code, string state)
         {
             var webRequest = (HttpWebRequest)WebRequest.Create("https://accounts.google.com/o/oauth2/token");
             webRequest.Method = "POST";
             webRequest.ContentType = "application/x-www-form-urlencoded";
 
-            // 参考 https://developers.google.com/accounts/docs/OAuth2WebServer
-            var postData = string.Format("code={0}&client_id={1}&client_secret={2}&redirect_uri={3}" +
-                "&grant_type=authorization_code",
-                Request.QueryString["code"],
-                    OAuthSettings.ClientID,
-                    OAuthSettings.ClientSecret,
-                    getGoogleCallbackUrl());
-
+            // A trick to get a query string builder. Hacky but elegant.
+            var queryString = System.Web.HttpUtility.ParseQueryString(string.Empty);
+            queryString["code"] = code;
+            queryString["client_id"] = OAuthSettings.ClientID;
+            queryString["client_secret"] = OAuthSettings.ClientSecret;
+            queryString["redirect_uri"] = getGoogleCallbackUrl();
+            queryString["grant_type"] = "authorization_code";
+            
             using (var sw = new StreamWriter(webRequest.GetRequestStream()))
             {
-                sw.Write(postData);
+                // Note: queryString.ToString() is overridden internally to return application/x-www-form-urlencoded.
+                sw.Write(queryString.ToString());
             }
 
             var responseJson = "";
@@ -85,7 +97,7 @@ namespace Saimoe.Controllers
             var accessToken = JsonConvert.DeserializeAnonymousType(responseJson, new { access_token = "" }).access_token;
 
             // 通过 AccessToken 拿到用户信息
-            webRequest = (HttpWebRequest)WebRequest.Create("https://www.googleapis.com/plus/v1/people/me");
+            webRequest = (HttpWebRequest)WebRequest.Create("https://www.googleapis.com/plus/v1/people/me?key=" + OAuthSettings.ApiKey);
             webRequest.Method = "GET";
             webRequest.Headers.Add("Authorization", "Bearer " + accessToken);
 
@@ -97,14 +109,20 @@ namespace Saimoe.Controllers
                 }
             }
 
-            // 取得用户的 Profile 数据。
-            // TODO: Deserialize this object: https://developers.google.com/+/api/latest/people#resource
+            var profile = JsonConvert.DeserializeObject<GoogleUser>(responseJson);
 
-            var profile = "";
+            FormsAuthentication.SetAuthCookie(profile.Id, createPersistentCookie: false);
+            Session["GoogleUser"] = profile;
 
-            // TODO: Please store the profile into Database!
+            return Redirect(state);
+        }
 
-            return Content(HttpUtility.HtmlEncode(profile.ToString()));
+        public ActionResult Logout()
+        {
+            FormsAuthentication.SignOut();
+            Session.Remove("GoogleUser");
+            
+            return RedirectToAction("Index", "Home");
         }
     }
 }

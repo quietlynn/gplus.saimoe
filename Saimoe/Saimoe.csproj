@@ -134,6 +134,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Saimoe.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\GoogleUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\ContestantRepository.cs" />
     <Compile Include="Resources\WebResources.Designer.cs">
@@ -215,9 +216,13 @@
     <Content Include="Scripts\jquery-1.7.2.min.js" />
     <Content Include="Scripts\jquery-ui-1.8.20.js" />
     <Content Include="Scripts\jquery-ui-1.8.20.min.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.5.3.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -254,6 +259,19 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Saimoe.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <Content Include="Views\Test\ContestantRegistration.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\AlreadyRegistered.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Test\AlreadyRegistered.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Test\404.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Test\ThankRegistration.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -271,7 +289,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>2540</DevelopmentServerPort>
+          <DevelopmentServerPort>57201</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>

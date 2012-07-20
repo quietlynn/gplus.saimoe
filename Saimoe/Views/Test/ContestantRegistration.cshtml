@@ -1,0 +1,84 @@
+﻿@model Saimoe.Models.ContestantRegistration
+
+@{
+    ViewBag.Title = WebResources.JoinContest;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>@WebResources.ContestantProfile</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Tagline)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxWithPlaceholderFor(model => model.Tagline)
+            @Html.ValidationMessageFor(model => model.Tagline)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Interest)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxWithPlaceholderFor(model => model.Interest)
+            @Html.ValidationMessageFor(model => model.Interest)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Characteristic)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxWithPlaceholderFor(model => model.Characteristic)
+            @Html.ValidationMessageFor(model => model.Characteristic)
+        </div>
+
+        <div class="editor-label">
+            <div class="description">
+                @WebResources.JoiningDateDescription
+            </div>
+        </div>
+        <div class="editor-field">
+            @{
+                var minYear = 2011;
+                var years = Enumerable.Range(minYear, DateTime.Now.Year - minYear + 1).Select(
+                    y => new SelectListItem { Text = y.ToString(), Value = y.ToString() });
+                var months = Enumerable.Range(1, 12).Select(
+                    m => new SelectListItem { Text = m.ToString(), Value = m.ToString() });
+            }
+            @Html.DropDownListFor(model => model.JoiningDateYear, years, WebResources.JoiningDateYear, new { @class = "input-small" })
+            @Html.DropDownListFor(model => model.JoiningDateMonth, months, WebResources.JoiningDateMonth, new { @class = "input-small" })
+            @Html.ValidationMessageFor(model => model.JoiningDateYear)
+            @Html.ValidationMessageFor(model => model.JoiningDateMonth)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.RegistrationPost)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxWithPlaceholderFor(model => model.RegistrationPost, new { @class = "input-xxlarge" })
+            @Html.ValidationMessageFor(model => model.RegistrationPost)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ActingCute)
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxWithPlaceholderFor(model => model.ActingCute)
+            @Html.ValidationMessageFor(model => model.ActingCute)
+        </div>
+
+        <p>
+            <input type="submit" value="Submit" class="btn btn-primary" />
+        </p>
+    </fieldset>
+}
+
+</div>
+
+
+
