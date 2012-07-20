@@ -177,6 +177,9 @@
   <data name="NavVoteResult" xml:space="preserve">
     <value>Results</value>
   </data>
+  <data name="NotSomebody" xml:space="preserve">
+    <value>Not {0} ?</value>
+  </data>
   <data name="RegistrationPost" xml:space="preserve">
     <value>Registration post</value>
   </data>

@@ -241,6 +241,15 @@ namespace Saimoe.Resources {
         }
         
         /// <summary>
+        ///   查找类似 Not {0} ? 的本地化字符串。
+        /// </summary>
+        public static string NotSomebody {
+            get {
+                return ResourceManager.GetString("NotSomebody", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Registration post 的本地化字符串。
         /// </summary>
         public static string RegistrationPost {
