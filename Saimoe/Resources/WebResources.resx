@@ -126,6 +126,9 @@
   <data name="ActingCuteDescription" xml:space="preserve">
     <value>Say something cute ~=[,,_,,]:3</value>
   </data>
+  <data name="AlreadyRegistered" xml:space="preserve">
+    <value>You have already registered.</value>
+  </data>
   <data name="Characteristic" xml:space="preserve">
     <value>Characteristic</value>
   </data>

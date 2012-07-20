@@ -1,8 +1,8 @@
 ﻿body {
+    
 }
 
-#main 
-{
+#main {
     margin-top: 60px;
     margin-left: 20px;
 }
@@ -13,7 +13,26 @@
     content : "*";
 }
 
-.field-validation-error 
-{
+.field-validation-error {
     color: red;
+}
+
+.profile {
+    margin-bottom: 0;
+    padding-right: 50px;
+    min-width: 20%;
+    display: inline-block;
+}
+
+.profile a {
+    text-decoration: none !important;
+}
+
+.profile-name {
+    margin-left: 20px;
+}
+
+.logout-hint {
+    margin-bottom: 20px;
+    font-style: italic;
 }

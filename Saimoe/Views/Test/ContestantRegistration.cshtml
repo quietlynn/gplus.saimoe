@@ -13,6 +13,27 @@
     <fieldset>
         <legend>@WebResources.ContestantProfile</legend>
 
+        @{
+            var user = new Saimoe.Models.GoogleUser
+            {
+                DisplayName = "Example",
+                Url = "https://plus.google.com/000000000000000000000",
+                Image = new Saimoe.Models.GoogleUser.ImageData {
+                    Url = "https://lh5.googleusercontent.com/-Jo1zT61iLS8/AAAAAAAAAAI/AAAAAAAAAAA/VfIWYI37z3U/s250-c-k/photo.jpg"
+                }
+            };
+        }
+        <div class="well profile">
+            <a href="@user.Url">
+                <img class="profile-image" src="@user.Image.Url" alt="" width="48px" height="48px" />
+                <span class="profile-name">@user.DisplayName</span>
+            </a>
+        </div>
+        <div class="logout-hint">
+            @string.Format(WebResources.NotSomebody, user.DisplayName)
+            @Html.ActionLink(WebResources.Logout, "Logout", "OAuth")
+        </div>
+
         <div class="editor-label">
             @Html.LabelFor(model => model.Tagline)
         </div>

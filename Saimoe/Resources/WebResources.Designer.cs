@@ -88,6 +88,15 @@ namespace Saimoe.Resources {
         }
         
         /// <summary>
+        ///   查找类似 You have already registered. 的本地化字符串。
+        /// </summary>
+        public static string AlreadyRegistered {
+            get {
+                return ResourceManager.GetString("AlreadyRegistered", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Characteristic 的本地化字符串。
         /// </summary>
         public static string Characteristic {

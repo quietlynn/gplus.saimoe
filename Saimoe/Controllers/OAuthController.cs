@@ -114,6 +114,11 @@ namespace Saimoe.Controllers
             FormsAuthentication.SetAuthCookie(profile.Id, createPersistentCookie: false);
             Session["GoogleUser"] = profile;
 
+            if (string.IsNullOrEmpty(state) || !Url.IsLocalUrl(state))
+            {
+                state = Url.Action("Index", "Home");
+            }
+
             return Redirect(state);
         }
 
