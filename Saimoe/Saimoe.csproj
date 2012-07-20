@@ -239,6 +239,18 @@
   <ItemGroup>
     <Content Include="Views\Test\ContestantRegistration.cshtml" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\AlreadyRegistered.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Test\AlreadyRegistered.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Test\404.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Test\ThankRegistration.cshtml" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
@@ -255,7 +267,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>2540</DevelopmentServerPort>
+          <DevelopmentServerPort>57201</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>
