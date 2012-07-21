@@ -31,6 +31,11 @@ namespace Saimoe.Core
                 LastLoginDate = DateTime.Now,
                 Profile = AutoMapper.Mapper.Map<ContestantRegistration, Profile>(registrationInfo)
             };
+            #region TODO: Unify field names and remove these two lines
+            contestant.Profile.JoinedYear = (short)registrationInfo.JoiningDateYear;
+            contestant.Profile.JoinedMonth = (byte)registrationInfo.JoiningDateMonth;
+            #endregion
+
             repository.AddContestant(contestant);
         }
 

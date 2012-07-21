@@ -64,7 +64,7 @@ namespace Saimoe.Controllers
             {
                 var yearRange = new System.ComponentModel.DataAnnotations.RangeAttribute(MinJoiningYear, DateTime.Now.Year);
 
-                if (yearRange.IsValid(model.JoiningDateYear))
+                if (!yearRange.IsValid(model.JoiningDateYear))
                 {
                     ModelState.AddModelError("JoiningDateYear", yearRange.FormatErrorMessage(Resources.WebResources.JoiningDateYear));
                 }
