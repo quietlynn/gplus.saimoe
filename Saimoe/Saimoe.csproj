@@ -123,6 +123,7 @@
     <Compile Include="Controllers\JoinController.cs" />
     <Compile Include="Controllers\OAuthController.cs" />
     <Compile Include="Controllers\TestController.cs" />
+    <Compile Include="Core\ContestantGroupingService.cs" />
     <Compile Include="Core\ContestantService.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

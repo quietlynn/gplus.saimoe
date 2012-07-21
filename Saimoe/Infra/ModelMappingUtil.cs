@@ -5,6 +5,8 @@
  * The model mapping register utility
  * 
  */
+using System;
+
 using AutoMapper;
 using Saimoe.Models;
 using ContestantProfile = Saimoe.Models.EF.Profile;
@@ -18,7 +20,8 @@ namespace Saimoe.Infra
         /// </summary>
         public static void RegisterMapping()
         {
-            var contestantMap = Mapper.CreateMap<ContestantRegistration, ContestantProfile>();
+            var contestantMap = Mapper.CreateMap<ContestantRegistration, ContestantProfile>()
+                .ForMember(profile => profile.JoinedDate, opt => opt.MapFrom(r => new DateTime(r.JoiningDateYear, r.JoiningDateMonth, 1)));
         }
     }
 }

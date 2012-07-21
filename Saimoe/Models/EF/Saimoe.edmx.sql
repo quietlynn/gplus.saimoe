@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 07/18/2012 20:21:24
--- Generated from EDMX file: D:\gplus.saimoe\Saimoe\Models\EDMX\Saimoe.edmx
+-- Date Created: 07/21/2012 13:18:10
+-- Generated from EDMX file: D:\gplus.saimoe\Saimoe\Models\EF\Saimoe.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -32,7 +32,6 @@ IF OBJECT_ID(N'[dbo].[Profiles]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Profiles];
 GO
 
-
 -- --------------------------------------------------
 -- Creating all tables
 -- --------------------------------------------------
@@ -40,23 +39,22 @@ GO
 -- Creating table 'Contestants'
 CREATE TABLE [dbo].[Contestants] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [GooglePlusId] nvarchar(21) UNIQUE NOT NULL,
+    [GooglePlusId] nvarchar(50) UNIQUE NOT NULL,
     [CreatedDate] datetime  NOT NULL,
     [LastLoginDate] datetime  NOT NULL,
-    [Profile_Id] int UNIQUE  NOT NULL
+    [Profile_Id] int  NOT NULL
 );
 GO
 
 -- Creating table 'Profiles'
 CREATE TABLE [dbo].[Profiles] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [Interest] nvarchar(21)  NOT NULL,
+    [Interest] nvarchar(max)  NOT NULL,
     [Characteristic] nvarchar(max)  NOT NULL,
     [ActingCute] nvarchar(max)  NOT NULL,
     [RegistrationPost] nvarchar(max)  NULL,
     [Tagline] nvarchar(max)  NOT NULL,
-    [JoinedYear] smallint  NOT NULL,
-    [JoinedMonth] tinyint  NOT NULL
+    [JoinedDate] datetime  NOT NULL
 );
 GO
 
