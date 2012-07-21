@@ -13,6 +13,11 @@
     content : "*";
 }
 
+.no-required-mark:before
+{
+    content : "" !important;
+}
+
 .field-validation-error {
     color: red;
 }
