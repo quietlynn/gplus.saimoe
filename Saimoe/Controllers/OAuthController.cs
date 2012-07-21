@@ -67,6 +67,22 @@ namespace Saimoe.Controllers
 
         public ActionResult Callback(string code, string state)
         {
+            var accessToken = getAccessToken(code, getGoogleCallbackUrl());
+            var profile = GetUserInfo(accessToken);
+            FormsAuthentication.SetAuthCookie(profile.Id, createPersistentCookie: false);
+            Session["GoogleUser"] = profile;
+
+            if (string.IsNullOrEmpty(state) || !Url.IsLocalUrl(state))
+            {
+                state = Url.Action("Index", "Home");
+            }
+
+            return Redirect(state);
+        }
+
+        [NonAction]
+        public string getAccessToken(string code, string redirectUri)
+        {
             var webRequest = (HttpWebRequest)WebRequest.Create("https://accounts.google.com/o/oauth2/token");
             webRequest.Method = "POST";
             webRequest.ContentType = "application/x-www-form-urlencoded";
@@ -76,9 +92,9 @@ namespace Saimoe.Controllers
             queryString["code"] = code;
             queryString["client_id"] = OAuthSettings.ClientID;
             queryString["client_secret"] = OAuthSettings.ClientSecret;
-            queryString["redirect_uri"] = getGoogleCallbackUrl();
+            queryString["redirect_uri"] = redirectUri;
             queryString["grant_type"] = "authorization_code";
-            
+
             using (var sw = new StreamWriter(webRequest.GetRequestStream()))
             {
                 // Note: queryString.ToString() is overridden internally to return application/x-www-form-urlencoded.
@@ -94,12 +110,16 @@ namespace Saimoe.Controllers
                 }
             }
 
-            var accessToken = JsonConvert.DeserializeAnonymousType(responseJson, new { access_token = "" }).access_token;
+            return JsonConvert.DeserializeAnonymousType(responseJson, new { access_token = "" }).access_token;
+        }
 
-            // 通过 AccessToken 拿到用户信息
-            webRequest = (HttpWebRequest)WebRequest.Create("https://www.googleapis.com/plus/v1/people/me?key=" + OAuthSettings.ApiKey);
+        [NonAction]
+        public static GoogleUser GetUserInfo(string accessToken)
+        {
+            var webRequest = (HttpWebRequest)WebRequest.Create("https://www.googleapis.com/plus/v1/people/me?key=" + OAuthSettings.ApiKey);
             webRequest.Method = "GET";
             webRequest.Headers.Add("Authorization", "Bearer " + accessToken);
+            var responseJson = "";
 
             using (var response = webRequest.GetResponse())
             {
@@ -109,17 +129,7 @@ namespace Saimoe.Controllers
                 }
             }
 
-            var profile = JsonConvert.DeserializeObject<GoogleUser>(responseJson);
-
-            FormsAuthentication.SetAuthCookie(profile.Id, createPersistentCookie: false);
-            Session["GoogleUser"] = profile;
-
-            if (string.IsNullOrEmpty(state) || !Url.IsLocalUrl(state))
-            {
-                state = Url.Action("Index", "Home");
-            }
-
-            return Redirect(state);
+            return JsonConvert.DeserializeObject<GoogleUser>(responseJson);
         }
 
         public ActionResult Logout()

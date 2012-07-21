@@ -120,6 +120,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\JoinController.cs" />
     <Compile Include="Controllers\OAuthController.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Core\ContestantService.cs" />
@@ -259,16 +260,16 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Saimoe.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="Views\Test\ContestantRegistration.cshtml" />
+    <Content Include="Views\Join\ContestantRegistration.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Test\AlreadyRegistered.cshtml" />
+    <Content Include="Views\Join\AlreadyRegistered.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Test\404.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Test\ThankRegistration.cshtml" />
+    <Content Include="Views\Join\Success.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -259,6 +259,15 @@ namespace Saimoe.Resources {
         }
         
         /// <summary>
+        ///   查找类似 Your registration has been accepted. Thanks. 的本地化字符串。
+        /// </summary>
+        public static string RegistrationAccepted {
+            get {
+                return ResourceManager.GetString("RegistrationAccepted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Registration post 的本地化字符串。
         /// </summary>
         public static string RegistrationPost {

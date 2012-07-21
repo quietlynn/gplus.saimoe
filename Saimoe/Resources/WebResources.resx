@@ -183,6 +183,9 @@
   <data name="NotSomebody" xml:space="preserve">
     <value>Not {0} ?</value>
   </data>
+  <data name="RegistrationAccepted" xml:space="preserve">
+    <value>Your registration has been accepted. Thanks.</value>
+  </data>
   <data name="RegistrationPost" xml:space="preserve">
     <value>Registration post</value>
   </data>
