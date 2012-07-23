@@ -123,12 +123,12 @@
     <Compile Include="Controllers\JoinController.cs" />
     <Compile Include="Controllers\OAuthController.cs" />
     <Compile Include="Controllers\TestController.cs" />
-    <Compile Include="Core\ContestantGroupingService.cs" />
     <Compile Include="Core\ContestantService.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="HtmlHelperExtensions\ModelMetadataExtensions.cs" />
+    <Compile Include="Infra\EnumerableExtensions.cs" />
     <Compile Include="Infra\ModelMappingUtil.cs" />
     <Compile Include="Models\ContestantRegistration.cs" />
     <Compile Include="Models\EF\Saimoe.Designer.cs">
