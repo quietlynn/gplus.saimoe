@@ -7,14 +7,20 @@
     margin-left: 20px;
 }
 
+@media (max-width: 480px) {
+    #main {
+        margin-top: 20px;
+        margin-left: 0px;
+    }
+}
+
 /* Append "*" to required fields */
 [data-val-required] ~ .field-validation-valid:before {
     color: red;
     content : "*";
 }
 
-.no-required-mark:before
-{
+.no-required-mark:before {
     content : "" !important;
 }
 
@@ -24,10 +30,9 @@
 
 .profile {
     margin-bottom: 0;
-    padding-right: 50px;
-    min-width: 20%;
     display: inline-block;
     float: none !important;
+    font-size: 1.5em;
 }
 
 .profile a {
