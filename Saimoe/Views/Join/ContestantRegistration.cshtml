@@ -30,7 +30,7 @@
             @Html.LabelFor(model => model.Tagline)
         </div>
         <div class="editor-field">
-            @Html.TextBoxWithPlaceholderFor(model => model.Tagline)
+            @Html.TextBoxWithPlaceholderFor(model => model.Tagline, new { @class = "span3" })
             @Html.ValidationMessageFor(model => model.Tagline)
         </div>
 
@@ -38,7 +38,7 @@
             @Html.LabelFor(model => model.Interest)
         </div>
         <div class="editor-field">
-            @Html.TextBoxWithPlaceholderFor(model => model.Interest)
+            @Html.TextBoxWithPlaceholderFor(model => model.Interest, new { @class = "span3" })
             @Html.ValidationMessageFor(model => model.Interest)
         </div>
 
@@ -46,7 +46,7 @@
             @Html.LabelFor(model => model.Characteristic)
         </div>
         <div class="editor-field">
-            @Html.TextBoxWithPlaceholderFor(model => model.Characteristic)
+            @Html.TextBoxWithPlaceholderFor(model => model.Characteristic, new { @class = "span3" })
             @Html.ValidationMessageFor(model => model.Characteristic)
         </div>
 
@@ -81,7 +81,7 @@
             @Html.LabelFor(model => model.ActingCute)
         </div>
         <div class="editor-field">
-            @Html.TextBoxWithPlaceholderFor(model => model.ActingCute)
+            @Html.TextBoxWithPlaceholderFor(model => model.ActingCute, new { @class = "input-xlarge" })
             @Html.ValidationMessageFor(model => model.ActingCute)
         </div>
 
