@@ -77,10 +77,14 @@ namespace Saimoe.Tests
                 Characteristic = "chara",
                 RegistrationPost = "registrationPost",
                 ActingCute = "ActingCute",
+                JoiningDateYear=2011,
+                JoiningDateMonth=7
             };
 
             var profile = Mapper.Map<ContestantRegistration, Saimoe.Models.EF.Profile>(contestantRegistration);
             Assert.AreEqual(contestantRegistration.ActingCute, profile.ActingCute);
+           Assert.AreEqual(contestantRegistration.JoiningDateYear, profile.JoinedDate.Year);
+           Assert.AreEqual(contestantRegistration.JoiningDateMonth, profile.JoinedDate.Month);
         }
     }
 }

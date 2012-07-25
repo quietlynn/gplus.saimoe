@@ -4,11 +4,11 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="Saimoe.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
-  <EntityContainer Name="SaimoeStoreContainer">
-    <EntitySet Name="Contestants" EntityType="Saimoe.Store.Contestants" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Profiles" EntityType="Saimoe.Store.Profiles" store:Type="Tables" Schema="dbo" />
-    <AssociationSet Name="ContestantProfile" Association="Saimoe.Store.ContestantProfile">
+    <Schema Namespace="Saimoe.Models.EF.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+  <EntityContainer Name="SaimoeModelsEFStoreContainer">
+    <EntitySet Name="Contestants" EntityType="Saimoe.Models.EF.Store.Contestants" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Profiles" EntityType="Saimoe.Models.EF.Store.Profiles" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="ContestantProfile" Association="Saimoe.Models.EF.Store.ContestantProfile">
       <End Role="Contestant" EntitySet="Contestants" />
       <End Role="Profile" EntitySet="Profiles" />
     </AssociationSet>
@@ -33,12 +33,11 @@
     <Property Name="ActingCute" Type="nvarchar(max)" Nullable="false" />
     <Property Name="RegistrationPost" Type="nvarchar(max)" Nullable="true" />
     <Property Name="Tagline" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="JoinedYear" Type="smallint" Nullable="false" />
-    <Property Name="JoinedMonth" Type="tinyint" Nullable="false" />
+    <Property Name="JoinedDate" Type="datetime" Nullable="false" />
   </EntityType>
   <Association Name="ContestantProfile">
-    <End Role="Contestant" Type="Saimoe.Store.Contestants" Multiplicity="*" />
-    <End Role="Profile" Type="Saimoe.Store.Profiles" Multiplicity="1" />
+    <End Role="Contestant" Type="Saimoe.Models.EF.Store.Contestants" Multiplicity="*" />
+    <End Role="Profile" Type="Saimoe.Models.EF.Store.Profiles" Multiplicity="1" />
     <ReferentialConstraint>
       <Principal Role="Profile">
         <PropertyRef Name="Id" />
@@ -80,9 +79,8 @@
           <Property Type="String" Name="ActingCute" Nullable="false" />
           <Property Type="String" Name="RegistrationPost" Nullable="true" />
           <Property Type="String" Name="Tagline" Nullable="false" />
-          <Property Type="Int16" Name="JoinedYear" Nullable="false" />
-          <Property Type="Byte" Name="JoinedMonth" Nullable="false" />
           <NavigationProperty Name="Contestant" Relationship="Saimoe.Models.EF.ContestantProfile" FromRole="Profile" ToRole="Contestant" />
+          <Property Type="DateTime" Name="JoinedDate" Nullable="false" />
         </EntityType>
         <Association Name="ContestantProfile">
           <End Type="Saimoe.Models.EF.Contestant" Role="Contestant" Multiplicity="1" />
@@ -93,7 +91,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
     <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
-  <EntityContainerMapping StorageEntityContainer="SaimoeStoreContainer" CdmEntityContainer="SaimoeContext">
+  <EntityContainerMapping StorageEntityContainer="SaimoeModelsEFStoreContainer" CdmEntityContainer="SaimoeContext">
     <EntitySetMapping Name="Contestants">
       <EntityTypeMapping TypeName="IsTypeOf(Saimoe.Models.EF.Contestant)">
         <MappingFragment StoreEntitySet="Contestants">
@@ -113,8 +111,7 @@
           <ScalarProperty Name="ActingCute" ColumnName="ActingCute" />
           <ScalarProperty Name="RegistrationPost" ColumnName="RegistrationPost" />
           <ScalarProperty Name="Tagline" ColumnName="Tagline" />
-          <ScalarProperty Name="JoinedYear" ColumnName="JoinedYear" />
-          <ScalarProperty Name="JoinedMonth" ColumnName="JoinedMonth" />
+          <ScalarProperty Name="JoinedDate" ColumnName="JoinedDate" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -146,7 +143,7 @@
     <edmx:Diagrams>
       <Diagram Name="Saimoe" >
         <EntityTypeShape EntityType="Saimoe.Models.EF.Contestant" Width="1.5" PointX="0.75" PointY="0.5" Height="1.779012858072917" />
-        <EntityTypeShape EntityType="Saimoe.Models.EF.Profile" Width="1.5" PointX="3.125" PointY="0.5" Height="2.7341113281249996" />
+        <EntityTypeShape EntityType="Saimoe.Models.EF.Profile" Width="1.5" PointX="3.125" PointY="0.5" Height="2.5430916341145831" />
         <AssociationConnector Association="Saimoe.Models.EF.ContestantProfile">
           <ConnectorPoint PointX="2.25" PointY="1.4850162760416668" />
           <ConnectorPoint PointX="3.125" PointY="1.4850162760416668" />

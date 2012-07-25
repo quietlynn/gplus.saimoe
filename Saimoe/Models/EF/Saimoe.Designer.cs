@@ -326,9 +326,8 @@ namespace Saimoe.Models.EF
         /// <param name="characteristic">Initial value of the Characteristic property.</param>
         /// <param name="actingCute">Initial value of the ActingCute property.</param>
         /// <param name="tagline">Initial value of the Tagline property.</param>
-        /// <param name="joinedYear">Initial value of the JoinedYear property.</param>
-        /// <param name="joinedMonth">Initial value of the JoinedMonth property.</param>
-        public static Profile CreateProfile(global::System.Int32 id, global::System.String interest, global::System.String characteristic, global::System.String actingCute, global::System.String tagline, global::System.Int16 joinedYear, global::System.Byte joinedMonth)
+        /// <param name="joinedDate">Initial value of the JoinedDate property.</param>
+        public static Profile CreateProfile(global::System.Int32 id, global::System.String interest, global::System.String characteristic, global::System.String actingCute, global::System.String tagline, global::System.DateTime joinedDate)
         {
             Profile profile = new Profile();
             profile.Id = id;
@@ -336,8 +335,7 @@ namespace Saimoe.Models.EF
             profile.Characteristic = characteristic;
             profile.ActingCute = actingCute;
             profile.Tagline = tagline;
-            profile.JoinedYear = joinedYear;
-            profile.JoinedMonth = joinedMonth;
+            profile.JoinedDate = joinedDate;
             return profile;
         }
 
@@ -497,48 +495,24 @@ namespace Saimoe.Models.EF
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.Int16 JoinedYear
+        public global::System.DateTime JoinedDate
         {
             get
             {
-                return _JoinedYear;
+                return _JoinedDate;
             }
             set
             {
-                OnJoinedYearChanging(value);
-                ReportPropertyChanging("JoinedYear");
-                _JoinedYear = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("JoinedYear");
-                OnJoinedYearChanged();
+                OnJoinedDateChanging(value);
+                ReportPropertyChanging("JoinedDate");
+                _JoinedDate = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("JoinedDate");
+                OnJoinedDateChanged();
             }
         }
-        private global::System.Int16 _JoinedYear;
-        partial void OnJoinedYearChanging(global::System.Int16 value);
-        partial void OnJoinedYearChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Byte JoinedMonth
-        {
-            get
-            {
-                return _JoinedMonth;
-            }
-            set
-            {
-                OnJoinedMonthChanging(value);
-                ReportPropertyChanging("JoinedMonth");
-                _JoinedMonth = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("JoinedMonth");
-                OnJoinedMonthChanged();
-            }
-        }
-        private global::System.Byte _JoinedMonth;
-        partial void OnJoinedMonthChanging(global::System.Byte value);
-        partial void OnJoinedMonthChanged();
+        private global::System.DateTime _JoinedDate;
+        partial void OnJoinedDateChanging(global::System.DateTime value);
+        partial void OnJoinedDateChanged();
 
         #endregion
 
