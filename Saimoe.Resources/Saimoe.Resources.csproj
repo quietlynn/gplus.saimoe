@@ -48,13 +48,13 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="WebResources.ja.resx" />
     <EmbeddedResource Include="WebResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>WebResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="WebResources.zh.resx" />
+    <EmbeddedResource Include="WebResources.zh-hans.resx" />
+    <EmbeddedResource Include="WebResources.zh-hant.resx" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
