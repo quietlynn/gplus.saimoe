@@ -166,7 +166,7 @@
     <value>ログイン</value>
   </data>
   <data name="LoginWithGooglePlus" xml:space="preserve">
-    <value> Google+ アカウントでログイン</value>
+    <value>Google+ アカウントでログイン</value>
   </data>
   <data name="Logout" xml:space="preserve">
     <value>ログアウト</value>
@@ -181,10 +181,10 @@
     <value>结果</value>
   </data>
   <data name="NotSomebody" xml:space="preserve">
-    <value> {0} じゃないですか？</value>
+    <value>{0} じゃないですか？</value>
   </data>
   <data name="RegistrationAccepted" xml:space="preserve">
-    <value>アカウント作成ありがと！</value>
+    <value>参加ありがとう～</value>
   </data>
   <data name="RegistrationPost" xml:space="preserve">
     <value>応募スレ</value>
@@ -202,6 +202,6 @@
     <value>キャッチフレーズ</value>
   </data>
   <data name="TaglineDescription" xml:space="preserve">
-    <value>一言の自己紹介。</value>﻿
+    <value>一言の自己紹介。</value>
   </data>
 </root>
