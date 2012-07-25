@@ -139,11 +139,6 @@
     <Compile Include="Models\GoogleUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\ContestantRepository.cs" />
-    <Compile Include="App_GlobalResources\WebResources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>WebResources.resx</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -252,15 +247,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_GlobalResources\WebResources.zh.resx">
-      <Generator>GlobalResourceProxyGenerator</Generator>
-    </Content>
-    <Content Include="App_GlobalResources\WebResources.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>WebResources.Designer.cs</LastGenOutput>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
     <EntityDeploy Include="Models\EF\Saimoe.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Saimoe.Designer.cs</LastGenOutput>
@@ -275,6 +261,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Join\Success.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Saimoe.Resources\Saimoe.Resources.csproj">
+      <Project>{D94EFDF4-7C6A-4471-AE23-1E866EC815F4}</Project>
+      <Name>Saimoe.Resources</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -25,8 +25,8 @@
                         <ul class="nav">
                             @helper NavItem(string linkText, string actionName, string controllerName, bool? active = null) {
                                 if (active == null) {
-                                    active = this.ViewContext.RouteData.Values["Action"] == actionName &&
-                                        this.ViewContext.RouteData.Values["Controller"] == controllerName;
+                                    active = (string)ViewContext.RouteData.Values["Action"] == actionName &&
+                                        (string)ViewContext.RouteData.Values["Controller"] == controllerName;
                                 }
                                 var className = active.Value ? "active" : null;
                                 <li class="@className">

@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using System.Web.Security;
 using Saimoe.Models;
 using Saimoe.Core;
+using Saimoe.Resources;
 
 namespace Saimoe.Controllers
 {
@@ -66,7 +67,7 @@ namespace Saimoe.Controllers
 
                 if (!yearRange.IsValid(model.JoiningDateYear))
                 {
-                    ModelState.AddModelError("JoiningDateYear", yearRange.FormatErrorMessage(App_GlobalResources.WebResources.JoiningDateYear));
+                    ModelState.AddModelError("JoiningDateYear", yearRange.FormatErrorMessage(WebResources.JoiningDateYear));
                 }
                 else
                 {

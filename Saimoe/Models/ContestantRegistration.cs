@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Web.Mvc;
 using System.Web.Security;
+using Saimoe.Resources;
 
 namespace Saimoe.Models
 {
@@ -15,7 +16,7 @@ namespace Saimoe.Models
         [Display(
             Name = "Tagline",
             Description = "TaglineDescription",
-            ResourceType = typeof(App_GlobalResources.WebResources)
+            ResourceType = typeof(WebResources)
         )]
         public string Tagline { get; set; }
 
@@ -24,7 +25,7 @@ namespace Saimoe.Models
         [Display(
             Name = "Interest",
             Description = "InterestDescription",
-            ResourceType = typeof(App_GlobalResources.WebResources)
+            ResourceType = typeof(WebResources)
         )]
         public string Interest { get; set; }
 
@@ -33,7 +34,7 @@ namespace Saimoe.Models
         [Display(
             Name = "Characteristic",
             Description = "CharacteristicDescription",
-            ResourceType = typeof(App_GlobalResources.WebResources)
+            ResourceType = typeof(WebResources)
         )]
         public string Characteristic { get; set; }
 
@@ -41,7 +42,7 @@ namespace Saimoe.Models
         [Range(2011, 9999)]
         [Display(
             Name = "JoiningDateYear",
-            ResourceType = typeof(App_GlobalResources.WebResources)
+            ResourceType = typeof(WebResources)
         )]
         public int JoiningDateYear { get; set; }
 
@@ -49,7 +50,7 @@ namespace Saimoe.Models
         [Range(1, 12)]
         [Display(
             Name = "JoiningDateMonth",
-            ResourceType = typeof(App_GlobalResources.WebResources)
+            ResourceType = typeof(WebResources)
         )]
         public int JoiningDateMonth { get; set; }
 
@@ -57,7 +58,7 @@ namespace Saimoe.Models
         [Display(
             Name = "RegistrationPost",
             Description = "RegistrationPostDescription",
-            ResourceType = typeof(App_GlobalResources.WebResources)
+            ResourceType = typeof(WebResources)
         )]
         public string RegistrationPost { get; set; }
 
@@ -65,7 +66,7 @@ namespace Saimoe.Models
         [Display(
             Name = "ActingCute",
             Description = "ActingCuteDescription",
-            ResourceType = typeof(App_GlobalResources.WebResources)
+            ResourceType = typeof(WebResources)
         )]
         public string ActingCute { get; set; }
     }
