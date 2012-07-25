@@ -106,7 +106,7 @@ namespace Saimoe.Resources {
         }
         
         /// <summary>
-        ///   查找类似 &lt;TODO&gt; 的本地化字符串。
+        ///   查找类似 Keywords of what makes you special. 的本地化字符串。
         /// </summary>
         public static string CharacteristicDescription {
             get {

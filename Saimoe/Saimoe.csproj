@@ -209,7 +209,7 @@
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="Global.asax" />
-    <Content Include="Models\EF\Saimoe.edmx.sql" />
+    <None Include="Models\EF\Saimoe.edmx.sql" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-1.7.2-vsdoc.js" />
@@ -250,6 +250,9 @@
     <Content Include="Views\_ViewStart.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_GlobalResources\WebResources.zh.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+    </Content>
     <EmbeddedResource Include="Resources\WebResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>WebResources.Designer.cs</LastGenOutput>

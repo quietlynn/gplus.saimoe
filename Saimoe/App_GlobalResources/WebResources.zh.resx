@@ -118,90 +118,90 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Account" xml:space="preserve">
-    <value>Account</value>
+    <value>账户</value>
   </data>
   <data name="ActingCute" xml:space="preserve">
-    <value>Acting cute</value>
+    <value>卖萌</value>
   </data>
   <data name="ActingCuteDescription" xml:space="preserve">
-    <value>Say something cute ~=[,,_,,]:3</value>
+    <value>来卖个萌～ ~=[,,_,,]:3</value>
   </data>
   <data name="AlreadyRegistered" xml:space="preserve">
-    <value>You have already registered.</value>
+    <value>您已经注册过了。</value>
   </data>
   <data name="Characteristic" xml:space="preserve">
-    <value>Characteristic</value>
+    <value>特征</value>
   </data>
   <data name="CharacteristicDescription" xml:space="preserve">
-    <value>Keywords of what makes you special.</value>
+    <value>让你与众不同的关键字。</value>
   </data>
   <data name="ContestantProfile" xml:space="preserve">
-    <value>Contestant Profile</value>
+    <value>参赛者简介</value>
   </data>
   <data name="Interest" xml:space="preserve">
-    <value>Interest</value>
+    <value>爱好</value>
   </data>
   <data name="InterestDescription" xml:space="preserve">
-    <value>What are you interested in?</value>
+    <value>您对什么感兴趣？</value>
   </data>
   <data name="JoinContest" xml:space="preserve">
-    <value>Join the contest</value>
+    <value>参加竞赛</value>
   </data>
   <data name="JoiningDate" xml:space="preserve">
-    <value>Date of joining</value>
+    <value>加入时间</value>
   </data>
   <data name="JoiningDateDescription" xml:space="preserve">
-    <value>When did you join Google+?</value>
+    <value>您什么时候加入 Google+ 的？</value>
   </data>
   <data name="JoiningDateMonth" xml:space="preserve">
-    <value>Month</value>
+    <value>月</value>
   </data>
   <data name="JoiningDateYear" xml:space="preserve">
-    <value>Year</value>
+    <value>年</value>
   </data>
   <data name="LangCode" xml:space="preserve">
-    <value>en</value>
+    <value>zh-hans</value>
   </data>
   <data name="Login" xml:space="preserve">
-    <value>Login</value>
+    <value>登录</value>
   </data>
   <data name="LoginWithGooglePlus" xml:space="preserve">
-    <value>Login with Google+</value>
+    <value>使用 Google+ 帐号登录</value>
   </data>
   <data name="Logout" xml:space="preserve">
-    <value>Logout</value>
+    <value>登出</value>
   </data>
   <data name="NavRegistration" xml:space="preserve">
-    <value>Join</value>
+    <value>加入</value>
   </data>
   <data name="NavVoteList" xml:space="preserve">
-    <value>Votes</value>
+    <value>投票</value>
   </data>
   <data name="NavVoteResult" xml:space="preserve">
-    <value>Results</value>
+    <value>结果</value>
   </data>
   <data name="NotSomebody" xml:space="preserve">
-    <value>Not {0} ?</value>
+    <value>不是 {0} 吗？</value>
   </data>
   <data name="RegistrationAccepted" xml:space="preserve">
-    <value>Your registration has been accepted. Thanks.</value>
+    <value>感谢您的注册！</value>
   </data>
   <data name="RegistrationPost" xml:space="preserve">
-    <value>Registration post</value>
+    <value>报名贴</value>
   </data>
   <data name="RegistrationPostDescription" xml:space="preserve">
-    <value>The URL to an additional and external registration post.</value>
+    <value>附加报名贴的 URL</value>
   </data>
   <data name="SiteHome" xml:space="preserve">
-    <value>Home</value>
+    <value>主页</value>
   </data>
   <data name="SiteName" xml:space="preserve">
-    <value>G+ Moe League</value>
+    <value>Google+ 萌战</value>
   </data>
   <data name="Tagline" xml:space="preserve">
-    <value>Tagline</value>
+    <value>个性宣言</value>
   </data>
   <data name="TaglineDescription" xml:space="preserve">
-    <value>A brief description of you.</value>
+    <value>一句话的自我介绍。</value>
   </data>
 </root>
