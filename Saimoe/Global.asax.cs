@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using Microsoft.Web.Optimization;
 using Saimoe.Infra;
+using System.Globalization;
 
 namespace Saimoe
 {
@@ -33,6 +34,41 @@ namespace Saimoe
 
             //will create a warmup util
             ModelMappingUtil.RegisterMapping();
+        }
+
+        public static readonly string LangCookieName = "lang";
+        public static readonly string LangQueryName = "hl";
+
+        protected void Application_BeginRequest(object sender, EventArgs e)
+        {
+            HttpContext context = ((HttpApplication)sender).Context;
+
+            string culture = null;
+
+            var cookie = context.Request.Cookies[LangCookieName];
+            if (cookie != null)
+            {
+                culture = cookie.Value;
+            }
+
+            var queryValue = context.Request.QueryString[LangQueryName];
+            if (!string.IsNullOrEmpty(queryValue))
+            {
+                culture = queryValue;
+            }
+
+            if (!string.IsNullOrEmpty(culture))
+            {
+                var thread = System.Threading.Thread.CurrentThread;
+                try
+                {
+                    thread.CurrentCulture = thread.CurrentUICulture = new CultureInfo(culture);
+                }
+                catch (ArgumentException)
+                {
+                    // Not a valid culture name.
+                }
+            }
         }
     }
 }
