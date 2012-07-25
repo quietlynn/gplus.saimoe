@@ -15,7 +15,7 @@ namespace Saimoe.Models
         [Display(
             Name = "Tagline",
             Description = "TaglineDescription",
-            ResourceType = typeof(Resources.WebResources)
+            ResourceType = typeof(App_GlobalResources.WebResources)
         )]
         public string Tagline { get; set; }
 
@@ -24,7 +24,7 @@ namespace Saimoe.Models
         [Display(
             Name = "Interest",
             Description = "InterestDescription",
-            ResourceType = typeof(Resources.WebResources)
+            ResourceType = typeof(App_GlobalResources.WebResources)
         )]
         public string Interest { get; set; }
 
@@ -33,7 +33,7 @@ namespace Saimoe.Models
         [Display(
             Name = "Characteristic",
             Description = "CharacteristicDescription",
-            ResourceType = typeof(Resources.WebResources)
+            ResourceType = typeof(App_GlobalResources.WebResources)
         )]
         public string Characteristic { get; set; }
 
@@ -41,7 +41,7 @@ namespace Saimoe.Models
         [Range(2011, 9999)]
         [Display(
             Name = "JoiningDateYear",
-            ResourceType = typeof(Resources.WebResources)
+            ResourceType = typeof(App_GlobalResources.WebResources)
         )]
         public int JoiningDateYear { get; set; }
 
@@ -49,7 +49,7 @@ namespace Saimoe.Models
         [Range(1, 12)]
         [Display(
             Name = "JoiningDateMonth",
-            ResourceType = typeof(Resources.WebResources)
+            ResourceType = typeof(App_GlobalResources.WebResources)
         )]
         public int JoiningDateMonth { get; set; }
 
@@ -57,7 +57,7 @@ namespace Saimoe.Models
         [Display(
             Name = "RegistrationPost",
             Description = "RegistrationPostDescription",
-            ResourceType = typeof(Resources.WebResources)
+            ResourceType = typeof(App_GlobalResources.WebResources)
         )]
         public string RegistrationPost { get; set; }
 
@@ -65,7 +65,7 @@ namespace Saimoe.Models
         [Display(
             Name = "ActingCute",
             Description = "ActingCuteDescription",
-            ResourceType = typeof(Resources.WebResources)
+            ResourceType = typeof(App_GlobalResources.WebResources)
         )]
         public string ActingCute { get; set; }
     }

@@ -66,7 +66,7 @@ namespace Saimoe.Controllers
 
                 if (!yearRange.IsValid(model.JoiningDateYear))
                 {
-                    ModelState.AddModelError("JoiningDateYear", yearRange.FormatErrorMessage(Resources.WebResources.JoiningDateYear));
+                    ModelState.AddModelError("JoiningDateYear", yearRange.FormatErrorMessage(App_GlobalResources.WebResources.JoiningDateYear));
                 }
                 else
                 {

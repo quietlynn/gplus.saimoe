@@ -139,7 +139,7 @@
     <Compile Include="Models\GoogleUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\ContestantRepository.cs" />
-    <Compile Include="Resources\WebResources.Designer.cs">
+    <Compile Include="App_GlobalResources\WebResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>WebResources.resx</DependentUpon>
@@ -237,6 +237,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Resources\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -254,10 +255,10 @@
     <Content Include="App_GlobalResources\WebResources.zh.resx">
       <Generator>GlobalResourceProxyGenerator</Generator>
     </Content>
-    <EmbeddedResource Include="Resources\WebResources.resx">
+    <Content Include="App_GlobalResources\WebResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>WebResources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <EntityDeploy Include="Models\EF\Saimoe.edmx">
