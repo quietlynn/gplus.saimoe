@@ -15,13 +15,13 @@
         @{
             Saimoe.Models.GoogleUser user = ViewBag.User;
         }
-        <div class="well profile">
+        <div class="well profile span4">
             <a href="@user.Url">
                 <img class="profile-image" src="@user.Image.Url" alt="" width="48px" height="48px" />
                 <span class="profile-name">@user.DisplayName</span>
             </a>
         </div>
-        <div class="logout-hint">
+        <div class="logout-hint span4">
             @string.Format(WebResources.NotSomebody, user.DisplayName)
             @Html.ActionLink(WebResources.Logout, "Logout", "OAuth")
         </div>

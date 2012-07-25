@@ -27,6 +27,7 @@
     padding-right: 50px;
     min-width: 20%;
     display: inline-block;
+    float: none !important;
 }
 
 .profile a {
@@ -40,4 +41,5 @@
 .logout-hint {
     margin-bottom: 20px;
     font-style: italic;
+    float: none !important;
 }
