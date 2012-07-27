@@ -63,7 +63,8 @@ namespace Saimoe.Controllers
 
             if (ModelState.IsValid)
             {
-                var yearRange = new System.ComponentModel.DataAnnotations.RangeAttribute(MinJoiningYear, DateTime.Now.Year);
+                var now = DateTime.Now;
+                var yearRange = new System.ComponentModel.DataAnnotations.RangeAttribute(MinJoiningYear, now.Year);
 
                 if (!yearRange.IsValid(model.JoiningDateYear))
                 {
@@ -71,14 +72,53 @@ namespace Saimoe.Controllers
                 }
                 else
                 {
-                    ContestantService.AddContestant(User.Identity.Name, model);
-                    return RedirectToAction("Success");
+                    var monthValid = true;
+                    if (now.Year == model.JoiningDateYear)
+                    {
+                        var monthRange = new System.ComponentModel.DataAnnotations.RangeAttribute(1, now.Month);
+                        if (!monthRange.IsValid(model.JoiningDateMonth))
+                        {
+                            ModelState.AddModelError("JoiningDateMonth", monthRange.FormatErrorMessage(WebResources.JoiningDateMonth));
+                            monthValid = false;
+                        }
+                    }
+                    if (monthValid)
+                    {
+                        if (!string.IsNullOrEmpty(model.RegistrationPost))
+                        {
+                            model.RegistrationPost = GPlusUrlC14n(model.RegistrationPost);
+                        }
+                        ContestantService.AddContestant(User.Identity.Name, model);
+                        return RedirectToAction("Success");
+                    }
                 }
             }
 
             ViewBag.User = user;
             ViewBag.MinYear = MinJoiningYear;
             return View("ContestantRegistration", model);
+        }
+
+        [NonAction]
+        public static string GPlusUrlC14n(string url)
+        {
+            string plusPrefix = "https://plus.google.com/";
+
+            if (!url.StartsWith(plusPrefix)) return url;
+            var urlStart = plusPrefix.Length;
+            // Example URL: https://plus.google.com/u/0/b/000000000000000000000/000000000000000000000/posts/aaaaaaaaaa
+            string userIndicator = "u/";
+            if (string.Compare(url, urlStart, userIndicator, 0, userIndicator.Length) == 0)
+            {
+                urlStart = url.IndexOf("/", urlStart + userIndicator.Length) + 1;
+            }
+            string pageIndicator = "b/";
+            if (string.Compare(url, urlStart, pageIndicator, 0, pageIndicator.Length) == 0)
+            {
+                urlStart = url.IndexOf("/", urlStart + pageIndicator.Length) + 1;
+            }
+            if (urlStart == url.Length) return plusPrefix;
+            return plusPrefix + url.Substring(urlStart);
         }
 
         public ActionResult Success()

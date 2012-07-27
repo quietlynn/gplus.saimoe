@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Saimoe.Resources")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("林静琴")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Saimoe.Resources")]
-[assembly: AssemblyCopyright("Copyright © 林静琴 2012")]
+[assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
