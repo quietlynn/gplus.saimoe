@@ -94,11 +94,11 @@ namespace Saimoe.Controllers
             var required = new RequiredAttribute();
             if (string.IsNullOrEmpty(yearField))
             {
-                ModelState.AddModelError("JoiningDate", required.FormatErrorMessage(WebResources.JoiningDateYear));
+                ModelState.AddModelError("JoinedDate", required.FormatErrorMessage(WebResources.JoiningDateYear));
             }
             else if (string.IsNullOrEmpty(monthField))
             {
-                ModelState.AddModelError("JoiningDate", required.FormatErrorMessage(WebResources.JoiningDateMonth));
+                ModelState.AddModelError("JoinedDate", required.FormatErrorMessage(WebResources.JoiningDateMonth));
             }
             else
             {
@@ -114,15 +114,15 @@ namespace Saimoe.Controllers
                 }
                 catch (FormatException ex)
                 {
-                    ModelState.AddModelError("JoiningDate", ex);
+                    ModelState.AddModelError("JoinedDate", ex);
                 }
                 catch (ArgumentOutOfRangeException)
                 {
-                    ModelState.AddModelError("JoiningDate", dateRange.FormatErrorMessage(WebResources.JoiningDate));
+                    ModelState.AddModelError("JoinedDate", dateRange.FormatErrorMessage(WebResources.JoiningDate));
                 }
                 catch (ArgumentException ex)
                 {
-                    ModelState.AddModelError("JoiningDate", ex);
+                    ModelState.AddModelError("JoinedDate", ex);
                 }
 
                 if (joinedDate != null)
@@ -131,7 +131,7 @@ namespace Saimoe.Controllers
 
                     if (!dateRange.IsValid(joinedDate.Value))
                     {
-                        ModelState.AddModelError("JoiningDate", dateRange.FormatErrorMessage(WebResources.JoiningDate));
+                        ModelState.AddModelError("JoinedDate", dateRange.FormatErrorMessage(WebResources.JoiningDate));
                     }
                     else
                     {

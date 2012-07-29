@@ -13,7 +13,7 @@
         <legend>@WebResources.ContestantProfile</legend>
 
         @{
-            Saimoe.Models.GoogleUser user = ViewBag.User;
+    Saimoe.Models.GoogleUser user = ViewBag.User;
         }
         <div class="well profile span4">
             <a href="@user.Url">
@@ -60,9 +60,21 @@
                     y => new SelectListItem { Text = y.ToString(), Value = y.ToString() });
                 var months = Enumerable.Range(1, 12).Select(
                     m => new SelectListItem { Text = m.ToString(), Value = m.ToString() });
+                var required = new System.ComponentModel.DataAnnotations.RequiredAttribute();
+                var htmlAttributes = new Dictionary<string, object>
+                {
+                    { "class", "input-small" },
+                    { "data-val", "true" },
+                    { "data-val-required", required.FormatErrorMessage(@WebResources.JoiningDateYear) },
+                };
             }
-            @Html.DropDownList("JoinedDateYear", years, WebResources.JoiningDateYear, new { @class = "input-small" })
-            @Html.DropDownList("JoinedDateMonth", months, WebResources.JoiningDateMonth, new { @class = "input-small" })
+            @Html.DropDownList("JoinedDateYear", years, WebResources.JoiningDateYear, htmlAttributes)
+            @{
+                htmlAttributes["data-val-required"] = required.FormatErrorMessage(@WebResources.JoiningDateMonth);
+            }
+            @Html.DropDownList("JoinedDateMonth", months, WebResources.JoiningDateMonth, htmlAttributes)
+            @Html.ValidationMessage("JoinedDateYear", new { @class = "no-required-mark" })
+            @Html.ValidationMessage("JoinedDateMonth", new { @class = "no-required-mark" })
             @Html.ValidationMessageFor(model => model.JoinedDate)
         </div>
 
