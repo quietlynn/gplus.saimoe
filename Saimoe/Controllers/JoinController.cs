@@ -7,13 +7,14 @@ using System.Web.Security;
 using Saimoe.Models;
 using Saimoe.Core;
 using Saimoe.Resources;
+using System.ComponentModel.DataAnnotations;
 
 namespace Saimoe.Controllers
 {
     [OAuthAuthorize]
     public class JoinController : Controller
     {
-        public static readonly int MinJoiningYear = 2011;
+        public static readonly DateTime MinDate = new DateTime(2011, 7, 1);
 
         GoogleUser user = null;
         public ContestantService ContestantService { get; set; }
@@ -41,9 +42,9 @@ namespace Saimoe.Controllers
             var user = this.user ?? (GoogleUser)Session["GoogleUser"];
             
             ViewBag.User = user;
-            ViewBag.MinYear = MinJoiningYear;
+            ViewBag.MinDate = MinDate;
 
-            var model = new ContestantRegistration
+            var model = new Profile
             {
                 Tagline = user.TagLine
             };
@@ -52,7 +53,7 @@ namespace Saimoe.Controllers
 
         [HttpPost]
         [ActionName("Index")]
-        public ActionResult IndexPost(ContestantRegistration model)
+        public ActionResult IndexPost(Profile model)
         {
             if (ContestantService.GetContestant(User.Identity.Name) != null)
             {
@@ -63,40 +64,85 @@ namespace Saimoe.Controllers
 
             if (ModelState.IsValid)
             {
-                var now = DateTime.Now;
-                var yearRange = new System.ComponentModel.DataAnnotations.RangeAttribute(MinJoiningYear, now.Year);
-
-                if (!yearRange.IsValid(model.JoiningDateYear))
+                var date = getJoinedDate();
+                if (date != null)
                 {
-                    ModelState.AddModelError("JoiningDateYear", yearRange.FormatErrorMessage(WebResources.JoiningDateYear));
-                }
-                else
-                {
-                    var monthValid = true;
-                    if (now.Year == model.JoiningDateYear)
+                    model.JoinedDate = date.Value;
+                    if (!string.IsNullOrEmpty(model.RegistrationPost))
                     {
-                        var monthRange = new System.ComponentModel.DataAnnotations.RangeAttribute(1, now.Month);
-                        if (!monthRange.IsValid(model.JoiningDateMonth))
-                        {
-                            ModelState.AddModelError("JoiningDateMonth", monthRange.FormatErrorMessage(WebResources.JoiningDateMonth));
-                            monthValid = false;
-                        }
+                        model.RegistrationPost = GPlusUrlC14n(model.RegistrationPost);
                     }
-                    if (monthValid)
+                    ContestantService.AddContestant(new Contestant
                     {
-                        if (!string.IsNullOrEmpty(model.RegistrationPost))
-                        {
-                            model.RegistrationPost = GPlusUrlC14n(model.RegistrationPost);
-                        }
-                        ContestantService.AddContestant(User.Identity.Name, model);
-                        return RedirectToAction("Success");
-                    }
+                        Profile = model,
+                        GooglePlusId = User.Identity.Name
+                    });
+                    return RedirectToAction("Success");
                 }
             }
 
             ViewBag.User = user;
-            ViewBag.MinYear = MinJoiningYear;
+            ViewBag.MinDate = MinDate;
             return View("ContestantRegistration", model);
+        }
+
+        [NonAction]
+        public DateTime? getJoinedDate()
+        {
+            var yearField = Request["JoinedDateYear"];
+            var monthField = Request["JoinedDateMonth"];
+            var required = new RequiredAttribute();
+            if (string.IsNullOrEmpty(yearField))
+            {
+                ModelState.AddModelError("JoiningDate", required.FormatErrorMessage(WebResources.JoiningDateYear));
+            }
+            else if (string.IsNullOrEmpty(monthField))
+            {
+                ModelState.AddModelError("JoiningDate", required.FormatErrorMessage(WebResources.JoiningDateMonth));
+            }
+            else
+            {
+                var dateRange = new RangeAttribute(
+                    typeof(DateTime),
+                    MinDate.ToShortDateString(),
+                    DateTime.Now.ToShortDateString()
+                );
+                DateTime? joinedDate = null;
+                try
+                {
+                    joinedDate = new DateTime(Convert.ToInt32(yearField), Convert.ToInt32(monthField), 1);
+                }
+                catch (FormatException ex)
+                {
+                    ModelState.AddModelError("JoiningDate", ex);
+                }
+                catch (ArgumentOutOfRangeException)
+                {
+                    ModelState.AddModelError("JoiningDate", dateRange.FormatErrorMessage(WebResources.JoiningDate));
+                }
+                catch (ArgumentException ex)
+                {
+                    ModelState.AddModelError("JoiningDate", ex);
+                }
+
+                if (joinedDate != null)
+                {
+                    var now = DateTime.Now;
+
+                    if (!dateRange.IsValid(joinedDate.Value))
+                    {
+                        ModelState.AddModelError("JoiningDate", dateRange.FormatErrorMessage(WebResources.JoiningDate));
+                    }
+                    else
+                    {
+                        return joinedDate;
+                    }
+                }
+            }
+
+            this.ViewData["JoinedDateYear"] = yearField;
+            this.ViewData["JoinedDateYear"] = monthField;
+            return null;
         }
 
         [NonAction]

@@ -25,6 +25,13 @@ namespace Saimoe
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
+
+            routes.MapRoute(
+                name: "Contestant",
+                url: "{id}",
+                defaults: new { controller = "Contestant", action = "View" },
+                constraints: new { id = @"\d+" }
+            );
         }
     }
 }

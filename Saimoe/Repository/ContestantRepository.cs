@@ -6,7 +6,7 @@
  * 
  */
 using System.Linq;
-using Saimoe.Models.EF;
+using Saimoe.Models;
 using System;
 
 namespace Saimoe.Repository

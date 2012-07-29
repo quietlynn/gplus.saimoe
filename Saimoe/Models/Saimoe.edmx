@@ -50,24 +50,32 @@
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema xmlns="http://schemas.microsoft.com/ado/2008/09/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="Saimoe.Models.EF" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
+      <Schema xmlns="http://schemas.microsoft.com/ado/2008/09/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="Saimoe.Models" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
         <EntityContainer Name="SaimoeContext" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Contestants" EntityType="Saimoe.Models.EF.Contestant" />
-          <EntitySet Name="Profiles" EntityType="Saimoe.Models.EF.Profile" />
-          <AssociationSet Name="ContestantProfile" Association="Saimoe.Models.EF.ContestantProfile">
+          <EntitySet Name="Contestants" EntityType="Saimoe.Models.Contestant" />
+          <EntitySet Name="Profiles" EntityType="Saimoe.Models.Profile" />
+          <AssociationSet Name="ContestantProfile" Association="Saimoe.Models.ContestantProfile">
             <End Role="Contestant" EntitySet="Contestants" />
             <End Role="Profile" EntitySet="Profiles" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Contestant">
+          <Documentation>
+            <Summary>test</Summary>
+          </Documentation>
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" >
+            <Documentation>
+              <Summary>test</Summary>
+              <LongDescription>testtest</LongDescription>
+            </Documentation>
+          </Property>
           <Property Type="String" Name="GooglePlusId" Nullable="false" />
           <Property Type="DateTime" Name="CreatedDate" Nullable="false" />
           <Property Type="DateTime" Name="LastLoginDate" Nullable="false" />
-          <NavigationProperty Name="Profile" Relationship="Saimoe.Models.EF.ContestantProfile" FromRole="Contestant" ToRole="Profile" />
+          <NavigationProperty Name="Profile" Relationship="Saimoe.Models.ContestantProfile" FromRole="Contestant" ToRole="Profile" />
         </EntityType>
         <EntityType Name="Profile">
           <Key>
@@ -79,12 +87,12 @@
           <Property Type="String" Name="ActingCute" Nullable="false" />
           <Property Type="String" Name="RegistrationPost" Nullable="true" />
           <Property Type="String" Name="Tagline" Nullable="false" />
-          <NavigationProperty Name="Contestant" Relationship="Saimoe.Models.EF.ContestantProfile" FromRole="Profile" ToRole="Contestant" />
+          <NavigationProperty Name="Contestant" Relationship="Saimoe.Models.ContestantProfile" FromRole="Profile" ToRole="Contestant" />
           <Property Type="DateTime" Name="JoinedDate" Nullable="false" />
         </EntityType>
         <Association Name="ContestantProfile">
-          <End Type="Saimoe.Models.EF.Contestant" Role="Contestant" Multiplicity="1" />
-          <End Type="Saimoe.Models.EF.Profile" Role="Profile" Multiplicity="1" />
+          <End Type="Saimoe.Models.Contestant" Role="Contestant" Multiplicity="1" />
+          <End Type="Saimoe.Models.Profile" Role="Profile" Multiplicity="1" />
         </Association>
       </Schema>
     </edmx:ConceptualModels>
@@ -93,7 +101,7 @@
     <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="SaimoeModelsEFStoreContainer" CdmEntityContainer="SaimoeContext">
     <EntitySetMapping Name="Contestants">
-      <EntityTypeMapping TypeName="IsTypeOf(Saimoe.Models.EF.Contestant)">
+      <EntityTypeMapping TypeName="IsTypeOf(Saimoe.Models.Contestant)">
         <MappingFragment StoreEntitySet="Contestants">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="GooglePlusId" ColumnName="GooglePlusId" />
@@ -103,7 +111,7 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Profiles">
-      <EntityTypeMapping TypeName="IsTypeOf(Saimoe.Models.EF.Profile)">
+      <EntityTypeMapping TypeName="IsTypeOf(Saimoe.Models.Profile)">
         <MappingFragment StoreEntitySet="Profiles">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Interest" ColumnName="Interest" />
@@ -115,7 +123,7 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <AssociationSetMapping Name="ContestantProfile" TypeName="Saimoe.Models.EF.ContestantProfile" StoreEntitySet="Contestants">
+    <AssociationSetMapping Name="ContestantProfile" TypeName="Saimoe.Models.ContestantProfile" StoreEntitySet="Contestants">
       <EndProperty Name="Profile">
         <ScalarProperty Name="Id" ColumnName="Profile_Id" />
       </EndProperty>
@@ -142,9 +150,9 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram Name="Saimoe" >
-        <EntityTypeShape EntityType="Saimoe.Models.EF.Contestant" Width="1.5" PointX="0.75" PointY="0.5" Height="1.779012858072917" />
-        <EntityTypeShape EntityType="Saimoe.Models.EF.Profile" Width="1.5" PointX="3.125" PointY="0.5" Height="2.5430916341145831" />
-        <AssociationConnector Association="Saimoe.Models.EF.ContestantProfile">
+        <EntityTypeShape EntityType="Saimoe.Models.Contestant" Width="1.5" PointX="0.75" PointY="0.5" Height="1.779012858072917" />
+        <EntityTypeShape EntityType="Saimoe.Models.Profile" Width="1.5" PointX="3.125" PointY="0.5" Height="2.5430916341145831" />
+        <AssociationConnector Association="Saimoe.Models.ContestantProfile">
           <ConnectorPoint PointX="2.25" PointY="1.4850162760416668" />
           <ConnectorPoint PointX="3.125" PointY="1.4850162760416668" />
         </AssociationConnector>

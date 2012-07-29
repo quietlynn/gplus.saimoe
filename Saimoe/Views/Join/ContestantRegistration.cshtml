@@ -1,4 +1,4 @@
-﻿@model Saimoe.Models.ContestantRegistration
+﻿@model Saimoe.Models.Profile
 
 @{
     ViewBag.Title = WebResources.JoinContest;
@@ -51,22 +51,19 @@
         </div>
 
         <div class="editor-label">
-            <div class="description">
-                @WebResources.JoiningDateDescription
-            </div>
+            @Html.LabelFor(model => model.JoinedDate)
         </div>
         <div class="editor-field">
             @{
-                var minyear = (int)ViewBag.MinYear;
-                var years = Enumerable.Range(minyear, DateTime.Now.Year - minyear + 1).Select(
+                var minDate = (DateTime)ViewBag.MinDate;
+                var years = Enumerable.Range(minDate.Year, DateTime.Now.Year - minDate.Year + 1).Select(
                     y => new SelectListItem { Text = y.ToString(), Value = y.ToString() });
                 var months = Enumerable.Range(1, 12).Select(
                     m => new SelectListItem { Text = m.ToString(), Value = m.ToString() });
             }
-            @Html.DropDownListFor(model => model.JoiningDateYear, years, WebResources.JoiningDateYear, new { @class = "input-small" })
-            @Html.DropDownListFor(model => model.JoiningDateMonth, months, WebResources.JoiningDateMonth, new { @class = "input-small" })
-            @Html.ValidationMessageFor(model => model.JoiningDateYear)
-            @Html.ValidationMessageFor(model => model.JoiningDateMonth, null, new { @class = "no-required-mark" })
+            @Html.DropDownList("JoinedDateYear", years, WebResources.JoiningDateYear, new { @class = "input-small" })
+            @Html.DropDownList("JoinedDateMonth", months, WebResources.JoiningDateMonth, new { @class = "input-small" })
+            @Html.ValidationMessageFor(model => model.JoinedDate)
         </div>
 
         <div class="editor-label">

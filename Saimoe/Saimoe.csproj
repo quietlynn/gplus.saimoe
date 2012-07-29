@@ -120,6 +120,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\ContestantController.cs" />
     <Compile Include="Controllers\JoinController.cs" />
     <Compile Include="Controllers\OAuthController.cs" />
     <Compile Include="Controllers\TestController.cs" />
@@ -130,8 +131,8 @@
     <Compile Include="HtmlHelperExtensions\ModelMetadataExtensions.cs" />
     <Compile Include="Infra\EnumerableExtensions.cs" />
     <Compile Include="Infra\ModelMappingUtil.cs" />
-    <Compile Include="Models\ContestantRegistration.cs" />
-    <Compile Include="Models\EF\Saimoe.Designer.cs">
+    <Compile Include="Models\Saimoe.meta.cs" />
+    <Compile Include="Models\Saimoe.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Saimoe.edmx</DependentUpon>
@@ -205,7 +206,7 @@
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="Global.asax" />
-    <None Include="Models\EF\Saimoe.edmx.sql" />
+    <None Include="Models\Saimoe.edmx.sql" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-1.7.2-vsdoc.js" />
@@ -233,6 +234,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Resources\" />
+    <Folder Include="Views\Contestant\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -247,7 +249,7 @@
     <Content Include="Views\_ViewStart.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <EntityDeploy Include="Models\EF\Saimoe.edmx">
+    <EntityDeploy Include="Models\Saimoe.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Saimoe.Designer.cs</LastGenOutput>
     </EntityDeploy>
