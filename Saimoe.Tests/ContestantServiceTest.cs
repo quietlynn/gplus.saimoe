@@ -80,7 +80,7 @@ namespace Saimoe.Tests
             };
 
             var contestantService = new ContestantService();
-            contestantService.AddContestant(gPlusId, contestantRegistration);
+          //  contestantService.AddContestant(gPlusId, contestantRegistration);
             var contestant = contestantService.GetContestant(gPlusId);
             Assert.IsNotNull(contestant);
         }
@@ -100,7 +100,7 @@ namespace Saimoe.Tests
             expect.Profile.JoinedDate = DateTime.Now;
 
             var contestantService1 = new ContestantService();
-            contestantService1.UpdateContestant(expect);
+       //     contestantService1.UpdateContestantProfile(expect);
             var actual = contestantService1.GetContestant(gPlusId);
 
 
