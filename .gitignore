@@ -10,3 +10,4 @@ TestResults
 
 # Environment related settings
 *.Publish.xml
+*.conn.config
