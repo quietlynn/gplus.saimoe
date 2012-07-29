@@ -18,7 +18,7 @@ namespace Saimoe.Controllers
 
         GoogleUser user = null;
         public ContestantService ContestantService { get; set; }
-        
+
         public JoinController()
         {
             ContestantService = new ContestantService();
@@ -40,7 +40,7 @@ namespace Saimoe.Controllers
                 return View("AlreadyRegistered");
             }
             var user = this.user ?? (GoogleUser)Session["GoogleUser"];
-            
+
             ViewBag.User = user;
             ViewBag.MinDate = MinDate;
 
@@ -72,11 +72,7 @@ namespace Saimoe.Controllers
                     {
                         model.RegistrationPost = GPlusUrlC14n(model.RegistrationPost);
                     }
-                    ContestantService.AddContestant(new Contestant
-                    {
-                        Profile = model,
-                        GooglePlusId = User.Identity.Name
-                    });
+                    ContestantService.AddContestant(new Contestant(User.Identity.Name, model));
                     return RedirectToAction("Success");
                 }
             }
