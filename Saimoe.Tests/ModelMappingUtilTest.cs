@@ -7,6 +7,7 @@ using Saimoe.Infra;
 using Saimoe.Models;
 using Saimoe.Models.EF;
 using AutoMapper;
+using Omu.ValueInjecter;
 
 namespace Saimoe.Tests
 {
@@ -80,8 +81,13 @@ namespace Saimoe.Tests
                 JoiningDateYear=2011,
                 JoiningDateMonth=7
             };
+            //var profile = new Saimoe.Models.EF.Profile();
+            //profile.InjectFrom(contestantRegistration);
 
             var profile = Mapper.Map<ContestantRegistration, Saimoe.Models.EF.Profile>(contestantRegistration);
+
+            var registration = Mapper.Map<Saimoe.Models.EF.Profile, ContestantRegistration>(profile);
+  
             Assert.AreEqual(contestantRegistration.ActingCute, profile.ActingCute);
            Assert.AreEqual(contestantRegistration.JoiningDateYear, profile.JoinedDate.Year);
            Assert.AreEqual(contestantRegistration.JoiningDateMonth, profile.JoinedDate.Month);

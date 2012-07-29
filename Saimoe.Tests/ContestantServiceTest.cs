@@ -84,5 +84,31 @@ namespace Saimoe.Tests
             var contestant = contestantService.GetContestant(gPlusId);
             Assert.IsNotNull(contestant);
         }
+
+        [TestMethod]
+        public void TestUpdateContestant()
+        {
+            var gPlusId = "107711263447378891785";
+            var contestantService = new ContestantService();
+            var expect = contestantService.GetContestant(gPlusId);
+
+            expect.Profile.Tagline = expect.Profile.Tagline + DateTime.Now.Minute;
+            expect.Profile.Interest = expect.Profile.Interest + DateTime.Now.Minute;
+            expect.Profile.Characteristic = expect.Profile.Characteristic + DateTime.Now.Minute;
+            expect.Profile.RegistrationPost = expect.Profile.RegistrationPost + DateTime.Now.Minute;
+            expect.Profile.ActingCute = expect.Profile.ActingCute + DateTime.Now.Minute;
+            expect.Profile.JoinedDate = DateTime.Now;
+
+            var contestantService1 = new ContestantService();
+            contestantService1.UpdateContestant(expect);
+            var actual = contestantService1.GetContestant(gPlusId);
+
+
+            Assert.AreEqual(expect.Profile.ActingCute, actual.Profile.ActingCute);
+            Assert.AreEqual(expect.Profile.Interest, actual.Profile.Interest);
+            Assert.AreEqual(expect.Profile.Characteristic, actual.Profile.Characteristic);
+            Assert.AreEqual(expect.Profile.RegistrationPost, actual.Profile.RegistrationPost);
+            Assert.AreEqual(expect.Profile.JoinedDate, actual.Profile.JoinedDate);
+        }
     }
 }

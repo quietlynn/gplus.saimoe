@@ -7,6 +7,7 @@
  */
 using System.Linq;
 using Saimoe.Models.EF;
+using System;
 
 namespace Saimoe.Repository
 {
@@ -51,6 +52,47 @@ namespace Saimoe.Repository
         internal Contestant GetContestant(string googlePlusId)
         {
             return _dbContext.Contestants.SingleOrDefault(c => c.GooglePlusId == googlePlusId);
+        }
+
+        //internal void UpdateContestant(Contestant contestant)
+        //{
+        //    var dbContestant = _dbContext.Contestants.SingleOrDefault(c => c.GooglePlusId == contestant.GooglePlusId);
+
+        //    if (dbContestant == null)
+        //    {
+        //        throw new InvalidOperationException("The contestant doesn't exist.");
+        //    }
+
+        //    #region TODO: Improve these ugly code later
+        //    dbContestant.Profile.Tagline = contestant.Profile.Tagline;
+        //    dbContestant.Profile.Interest = contestant.Profile.Interest;
+        //    dbContestant.Profile.Characteristic = contestant.Profile.Characteristic;
+        //    dbContestant.Profile.RegistrationPost = contestant.Profile.RegistrationPost;
+        //    dbContestant.Profile.ActingCute = contestant.Profile.ActingCute;
+        //    dbContestant.Profile.JoinedDate = contestant.Profile.JoinedDate;
+        //    #endregion
+
+        //    _dbContext.SaveChanges();
+        //}
+
+        internal void UpdateProfile(Profile profile)
+        {
+            var dbProfile = _dbContext.Profiles.SingleOrDefault(p => p.Id == profile.Id);
+            if (dbProfile == null)
+            {
+                throw new InvalidOperationException("The profile doesn't exist.");
+            }
+
+            #region TODO: Improve these ugly code later
+            dbProfile.Tagline = profile.Tagline;
+            dbProfile.Interest = profile.Interest;
+            dbProfile.Characteristic = profile.Characteristic;
+            dbProfile.RegistrationPost = profile.RegistrationPost;
+            dbProfile.ActingCute = profile.ActingCute;
+            dbProfile.JoinedDate = profile.JoinedDate;
+            #endregion
+
+            _dbContext.SaveChanges();
         }
     }
 }

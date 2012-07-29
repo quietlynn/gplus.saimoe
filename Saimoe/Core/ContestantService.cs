@@ -22,41 +22,33 @@ namespace Saimoe.Core
     /// </summary>
     public class ContestantService
     {
+        private ContestantRepository _contestantRepository;
+
+        public ContestantService(ContestantRepository contestantRepository = null)
+        {
+            _contestantRepository = contestantRepository ?? new ContestantRepository();
+        }
+
         /// <summary>
         /// Add a contestant to database
         /// </summary>
         /// <param name="googlePlusId">Id of google plus</param>
         /// <param name="registrationInfo">Registration info of contestant</param>
-        public void AddContestant(string googlePlusId, ContestantRegistration registrationInfo)
+        public void AddContestant(Contestant contestant)
         {
-            if (string.IsNullOrEmpty(googlePlusId))
-            {
-                throw new ArgumentNullException("GPlus Id");
-            }
-
-            if (registrationInfo == null)
+            if (contestant == null)
             {
                 throw new ArgumentNullException("Contestant Registration");
             }
 
-            var repository = new ContestantRepository();
-            var contestant = new Contestant
-            {
-                GooglePlusId = googlePlusId,
-                CreatedDate = DateTime.Now,
-                LastLoginDate = DateTime.Now,
-                Profile = AutoMapper.Mapper.Map<ContestantRegistration, Profile>(registrationInfo)
-            };
-
-
-            repository.AddContestant(contestant);
+            _contestantRepository.AddContestant(contestant);
         }
 
         /// <summary>
-        /// Get contestant info by given google plus id
+        /// Get contestant registration info by given google plus id
         /// </summary>
         /// <param name="gPlusId">google plus id</param>
-        /// <returns>found contestant info or null</returns>
+        /// <returns>found contestant registration info or null</returns>
         public Contestant GetContestant(string googlePlusId)
         {
             if (string.IsNullOrEmpty(googlePlusId))
@@ -64,8 +56,22 @@ namespace Saimoe.Core
                 throw new ArgumentNullException("GPlus Id");
             }
 
-            var repository = new ContestantRepository();
-            return repository.GetContestant(googlePlusId);
+            return _contestantRepository.GetContestant(googlePlusId);
         }
+
+        /// <summary>
+        /// Update profile of contestant
+        /// </summary>
+        /// <param name="profile"></param>
+        public void UpdateContestantProfile(Profile profile)
+        {
+            if (profile == null)
+            {
+                throw new ArgumentNullException("contestant");
+            }
+
+            _contestantRepository.UpdateProfile(profile);
+        }
+
     }
 }

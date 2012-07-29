@@ -22,6 +22,10 @@ namespace Saimoe.Infra
         {
             var contestantMap = Mapper.CreateMap<ContestantRegistration, ContestantProfile>()
                 .ForMember(profile => profile.JoinedDate, opt => opt.MapFrom(r => new DateTime(r.JoiningDateYear, r.JoiningDateMonth, 1)));
+
+            var contestantRegistrationMap = Mapper.CreateMap<ContestantProfile, ContestantRegistration>()
+                .ForMember(cr => cr.JoiningDateYear, opt => opt.MapFrom(r => r.JoinedDate.Year))
+                .ForMember(cr => cr.JoiningDateMonth, opt => opt.MapFrom(r => r.JoinedDate.Month));
         }
     }
 }
