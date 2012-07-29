@@ -17,6 +17,17 @@ namespace Saimoe.Controllers
         public static readonly DateTime MinDate = new DateTime(2011, 7, 1);
 
         GoogleUser user = null;
+        public GoogleUser GoogleUser
+        {
+            get
+            {
+                if (this.user == null)
+                {
+                    this.user = (GoogleUser)Session["GoogleUser"];
+                }
+                return this.user;
+            }
+        }
         public ContestantService ContestantService { get; set; }
         
         public JoinController()
@@ -30,6 +41,8 @@ namespace Saimoe.Controllers
             this.ContestantService = service;
         }
 
+
+
         //
         // GET: /Join/
         [HttpGet]
@@ -39,28 +52,24 @@ namespace Saimoe.Controllers
             {
                 return View("AlreadyRegistered");
             }
-            var user = this.user ?? (GoogleUser)Session["GoogleUser"];
-            
-            ViewBag.User = user;
+
+            ViewBag.User = GoogleUser;
             ViewBag.MinDate = MinDate;
 
             var model = new Profile
             {
-                Tagline = user.TagLine
+                Tagline = GoogleUser.TagLine
             };
             return View("ContestantRegistration", model);
         }
 
         [HttpPost]
-        [ActionName("Index")]
-        public ActionResult IndexPost(Profile model)
+        public ActionResult Index(Profile model)
         {
             if (ContestantService.GetContestant(User.Identity.Name) != null)
             {
                 return View("AlreadyRegistered");
             }
-
-            var user = this.user ?? (GoogleUser)Session["GoogleUser"];
 
             if (ModelState.IsValid)
             {
@@ -81,9 +90,35 @@ namespace Saimoe.Controllers
                 }
             }
 
-            ViewBag.User = user;
+            ViewBag.User = GoogleUser;
             ViewBag.MinDate = MinDate;
             return View("ContestantRegistration", model);
+        }
+
+        public ActionResult Success()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult Edit()
+        {
+            var c = ContestantService.GetContestant(User.Identity.Name);
+            if (c == null)
+            {
+                return RedirectToAction("Index");
+            }
+            var model = c.Profile;
+
+            ViewBag.User = GoogleUser;
+            ViewBag.MinDate = MinDate;
+            return View("ContestantRegistration", model);
+        }
+
+        [HttpPost]
+        public ActionResult Edit(Profile model)
+        {
+            throw new NotImplementedException();
         }
 
         [NonAction]
@@ -165,11 +200,6 @@ namespace Saimoe.Controllers
             }
             if (urlStart == url.Length) return plusPrefix;
             return plusPrefix + url.Substring(urlStart);
-        }
-
-        public ActionResult Success()
-        {
-            return View();
         }
     }
 
