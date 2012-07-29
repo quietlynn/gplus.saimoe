@@ -41,8 +41,6 @@ namespace Saimoe.Controllers
             this.ContestantService = service;
         }
 
-
-
         //
         // GET: /Join/
         [HttpGet]
@@ -114,7 +112,24 @@ namespace Saimoe.Controllers
         [HttpPost]
         public ActionResult Edit(Profile model)
         {
-            throw new NotImplementedException();
+            if (ModelState.IsValid)
+            {
+                var date = getJoinedDate();
+                if (date != null)
+                {
+                    model.JoinedDate = date.Value;
+                    if (!string.IsNullOrEmpty(model.RegistrationPost))
+                    {
+                        model.RegistrationPost = GPlusUrlC14n(model.RegistrationPost);
+                    }
+                    ContestantService.UpdateContestantProfile(User.Identity.Name, model); 
+                    return RedirectToAction("Success");
+                }
+            }
+
+            ViewBag.User = GoogleUser;
+            ViewBag.MinDate = MinDate;
+            return View("ContestantRegistration", model);
         }
 
         [NonAction]
