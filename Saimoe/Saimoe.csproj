@@ -131,6 +131,7 @@
     <Compile Include="HtmlHelperExtensions\ModelMetadataExtensions.cs" />
     <Compile Include="Infra\EnumerableExtensions.cs" />
     <Compile Include="Infra\ModelMappingUtil.cs" />
+    <Compile Include="Models\Saimoe.cs" />
     <Compile Include="Models\Saimoe.meta.cs" />
     <Compile Include="Models\Saimoe.Designer.cs">
       <AutoGen>True</AutoGen>

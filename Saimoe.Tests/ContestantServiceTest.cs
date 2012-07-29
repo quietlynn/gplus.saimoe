@@ -70,17 +70,21 @@ namespace Saimoe.Tests
             // TODO: Add test logic here
             //
             var gPlusId = "107711263447378891785";
-            var contestantRegistration = new ContestantRegistration
-            {
-                Tagline = "tagline",
-                Interest = "interest",
-                Characteristic = "chara",
-                RegistrationPost = "registrationPost",
-                ActingCute = "ActingCute",
-            };
+            var contestantRegistration = new Contestant(
+                gPlusId,
+                new Profile
+                {
+                    Tagline = "tagline",
+                    Interest = "interest",
+                    Characteristic = "chara",
+                    RegistrationPost = "registrationPost",
+                    ActingCute = "ActingCute",
+                    JoinedDate = new DateTime(2011, 7, 1),
+                }
+            );
 
             var contestantService = new ContestantService();
-          //  contestantService.AddContestant(gPlusId, contestantRegistration);
+            contestantService.AddContestant(contestantRegistration);
             var contestant = contestantService.GetContestant(gPlusId);
             Assert.IsNotNull(contestant);
         }
@@ -98,12 +102,11 @@ namespace Saimoe.Tests
             expect.Profile.RegistrationPost = expect.Profile.RegistrationPost + DateTime.Now.Minute;
             expect.Profile.ActingCute = expect.Profile.ActingCute + DateTime.Now.Minute;
             expect.Profile.JoinedDate = DateTime.Now;
-
             var contestantService1 = new ContestantService();
-       //     contestantService1.UpdateContestantProfile(expect);
+            contestantService1.UpdateContestantProfile(gPlusId, expect.Profile);
+
             var actual = contestantService1.GetContestant(gPlusId);
-
-
+            Assert.AreEqual(expect.Profile.Tagline, actual.Profile.Tagline);
             Assert.AreEqual(expect.Profile.ActingCute, actual.Profile.ActingCute);
             Assert.AreEqual(expect.Profile.Interest, actual.Profile.Interest);
             Assert.AreEqual(expect.Profile.Characteristic, actual.Profile.Characteristic);

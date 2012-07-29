@@ -76,15 +76,15 @@ namespace Saimoe.Tests
         [TestMethod()]
         public void RandomGroupingTest()
         {
-            var contestants = new List<ContestantRegistration> { }; // TODO: Initialize to an appropriate value
+            var contestants = new List<Contestant> { }; // TODO: Initialize to an appropriate value
             for (var i = 0; i < 95; i++)
             {
-                contestants.Add(new ContestantRegistration { ActingCute = "A " + i });
+                contestants.Add(new Contestant { GooglePlusId = "A " + i });
             }
 
             int groupQuantity = 10; // TODO: Initialize to an appropriate value
-            IEnumerable<IEnumerable<ContestantRegistration>> expected = null; // TODO: Initialize to an appropriate value
-            IEnumerable<IEnumerable<ContestantRegistration>> actual;
+            IEnumerable<IEnumerable<Contestant>> expected = null; // TODO: Initialize to an appropriate value
+            IEnumerable<IEnumerable<Contestant>> actual;
             actual = contestants.RandomGrouping(groupQuantity);
 
             Assert.IsTrue(!actual.Any(g => g.Count() > 10 || g.Count() < 9));
