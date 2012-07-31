@@ -58,23 +58,10 @@ namespace Saimoe.Repository
         /// Update profile of contestant
         /// </summary>
         /// <param name="profile"></param>
-        /// <remarks>Meet problems while using Attach, will be improve later</remarks>
         internal void UpdateProfile(Profile profile)
         {
-            var dbProfile = _dbContext.Profiles.SingleOrDefault(p => p.Id == profile.Id);
-            if (dbProfile == null)
-            {
-                throw new InvalidOperationException("The profile doesn't exist.");
-            }
-
-            #region TODO: Improve these ugly codes later
-            dbProfile.Tagline = profile.Tagline;
-            dbProfile.Interest = profile.Interest;
-            dbProfile.Characteristic = profile.Characteristic;
-            dbProfile.RegistrationPost = profile.RegistrationPost;
-            dbProfile.ActingCute = profile.ActingCute;
-            dbProfile.JoinedDate = profile.JoinedDate;
-            #endregion
+            _dbContext.Profiles.Attach(_dbContext.Profiles.Single(p => p.Id == profile.Id));
+            _dbContext.Profiles.ApplyCurrentValues(profile);
 
             _dbContext.SaveChanges();
         }
