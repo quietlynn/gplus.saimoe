@@ -8,6 +8,7 @@
 using System.Linq;
 using Saimoe.Models;
 using System;
+using Omu.ValueInjecter;
 
 namespace Saimoe.Repository
 {
@@ -61,6 +62,15 @@ namespace Saimoe.Repository
         internal void UpdateProfile(Profile profile)
         {
             _dbContext.Profiles.Attach(_dbContext.Profiles.Single(p => p.Id == profile.Id));
+            _dbContext.Profiles.ApplyCurrentValues(profile);
+
+            _dbContext.SaveChanges();
+        }
+
+        internal void UpdateProfileByGoogleId(string googlePlusId, Profile profile)
+        {
+            var pid = _dbContext.Profiles.Single(c => c.Contestant.GooglePlusId == googlePlusId).Id;
+            profile.Id = pid;
             _dbContext.Profiles.ApplyCurrentValues(profile);
 
             _dbContext.SaveChanges();

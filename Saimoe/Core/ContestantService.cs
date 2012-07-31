@@ -66,19 +66,16 @@ namespace Saimoe.Core
         /// <param name="profile"></param>
         public void UpdateContestantProfile(string googlePlusId, Profile profile)
         {
+            if (string.IsNullOrEmpty(googlePlusId))
+            {
+                throw new ArgumentNullException("GPlus Id");
+            }
             if (profile == null)
             {
                 throw new ArgumentNullException("contestant");
             }
-            var contestant = GetContestant(googlePlusId);
 
-            if (contestant == null)
-            {
-                throw new InvalidOperationException("Contestant not found.");
-            }
-            profile.Id = contestant.Profile.Id;
-            _contestantRepository.UpdateProfile(profile);
+            _contestantRepository.UpdateProfileByGoogleId(googlePlusId, profile);
         }
-
     }
 }

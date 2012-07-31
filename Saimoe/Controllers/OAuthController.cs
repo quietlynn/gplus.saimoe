@@ -68,6 +68,12 @@ namespace Saimoe.Controllers
         public ActionResult Callback(string code, string state)
         {
             var accessToken = getAccessToken(code, getGoogleCallbackUrl());
+            if (accessToken == null)
+            {
+                // Google is down.
+                ViewBag.RedirectUri = state;
+                return View("GoogleDown");
+            }
             var profile = GetUserInfo(accessToken);
             FormsAuthentication.SetAuthCookie(profile.Id, createPersistentCookie: false);
             Session["GoogleUser"] = profile;
@@ -100,9 +106,26 @@ namespace Saimoe.Controllers
                 // Note: queryString.ToString() is overridden internally to return application/x-www-form-urlencoded.
                 sw.Write(queryString.ToString());
             }
+            HttpWebResponse response = null;
+            try
+            {
+                response = (HttpWebResponse)webRequest.GetResponse();
+            }
+            catch (WebException ex)
+            {
+                response = (HttpWebResponse)ex.Response;
+                switch (response.StatusCode)
+                {
+                    case HttpStatusCode.InternalServerError:
+                    case HttpStatusCode.ServiceUnavailable:
+                        return null;
+                    default:
+                        throw ex;
+                }
+            }
 
             var responseJson = "";
-            using (var response = webRequest.GetResponse())
+            using (response)
             {
                 using (var sr = new StreamReader(response.GetResponseStream()))
                 {

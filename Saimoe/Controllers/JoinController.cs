@@ -104,6 +104,9 @@ namespace Saimoe.Controllers
             }
             var model = c.Profile;
 
+            ViewData["JoinedDateYear"] = model.JoinedDate.Year;
+            ViewData["JoinedDateMonth"] = model.JoinedDate.Month;
+
             ViewBag.User = GoogleUser;
             ViewBag.MinDate = MinDate;
             return View("ContestantRegistration", model);
@@ -126,7 +129,6 @@ namespace Saimoe.Controllers
                     return RedirectToAction("Success");
                 }
             }
-
             ViewBag.User = GoogleUser;
             ViewBag.MinDate = MinDate;
             return View("ContestantRegistration", model);
