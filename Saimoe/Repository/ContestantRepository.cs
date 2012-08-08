@@ -8,7 +8,7 @@
 using System.Linq;
 using Saimoe.Models;
 using System;
-using Omu.ValueInjecter;
+//using Omu.ValueInjecter;
 
 namespace Saimoe.Repository
 {
@@ -50,7 +50,7 @@ namespace Saimoe.Repository
         /// </summary>
         /// <param name="googlePlusId">google plus id</param>
         /// <returns>found contestant or null</returns>
-        internal Contestant GetContestant(string googlePlusId)
+        public Contestant GetContestant(string googlePlusId)
         {
             return _dbContext.Contestants.SingleOrDefault(c => c.GooglePlusId == googlePlusId);
         }
@@ -59,7 +59,7 @@ namespace Saimoe.Repository
         /// Update profile of contestant
         /// </summary>
         /// <param name="profile"></param>
-        internal void UpdateProfile(Profile profile)
+        public void UpdateProfile(Profile profile)
         {
             _dbContext.Profiles.Attach(_dbContext.Profiles.Single(p => p.Id == profile.Id));
             _dbContext.Profiles.ApplyCurrentValues(profile);

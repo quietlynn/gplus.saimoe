@@ -4,13 +4,29 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="Saimoe.Models.EF.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
-  <EntityContainer Name="SaimoeModelsEFStoreContainer">
-    <EntitySet Name="Contestants" EntityType="Saimoe.Models.EF.Store.Contestants" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Profiles" EntityType="Saimoe.Models.EF.Store.Profiles" store:Type="Tables" Schema="dbo" />
-    <AssociationSet Name="ContestantProfile" Association="Saimoe.Models.EF.Store.ContestantProfile">
+    <Schema Namespace="Saimoe.Models.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+  <EntityContainer Name="SaimoeModelsStoreContainer">
+    <EntitySet Name="Contestants" EntityType="Saimoe.Models.Store.Contestants" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Profiles" EntityType="Saimoe.Models.Store.Profiles" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Administrators" EntityType="Saimoe.Models.Store.Administrators" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Votings" EntityType="Saimoe.Models.Store.Votings" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="UserCaches" EntityType="Saimoe.Models.Store.UserCaches" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ContestantVoting" EntityType="Saimoe.Models.Store.ContestantVoting" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="ContestantProfile" Association="Saimoe.Models.Store.ContestantProfile">
       <End Role="Contestant" EntitySet="Contestants" />
       <End Role="Profile" EntitySet="Profiles" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ContestantVoting_Contestant" Association="Saimoe.Models.Store.FK_ContestantVoting_Contestant">
+      <End Role="Contestant" EntitySet="Contestants" />
+      <End Role="ContestantVoting" EntitySet="ContestantVoting" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ContestantVoting_Voting" Association="Saimoe.Models.Store.FK_ContestantVoting_Voting">
+      <End Role="Voting" EntitySet="Votings" />
+      <End Role="ContestantVoting" EntitySet="ContestantVoting" />
+    </AssociationSet>
+    <AssociationSet Name="ProfileUserCache" Association="Saimoe.Models.Store.ProfileUserCache">
+      <End Role="Profile" EntitySet="Profiles" />
+      <End Role="UserCache" EntitySet="UserCaches" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="Contestants">
@@ -34,16 +50,86 @@
     <Property Name="RegistrationPost" Type="nvarchar(max)" Nullable="true" />
     <Property Name="Tagline" Type="nvarchar(max)" Nullable="false" />
     <Property Name="JoinedDate" Type="datetime" Nullable="false" />
+    <Property Name="UserCaches_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Administrators">
+    <Key>
+      <PropertyRef Name="GooglePlusId" />
+    </Key>
+    <Property Name="GooglePlusId" Type="nvarchar(max)" StoreGeneratedPattern="Identity" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Votings">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="Deadline" Type="datetime" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Status" Type="tinyint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="UserCaches">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Photo" Type="varbinary(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ContestantVoting">
+    <Key>
+      <PropertyRef Name="Contestants_Id" />
+      <PropertyRef Name="Votings_Id" />
+    </Key>
+    <Property Name="Contestants_Id" Type="int" Nullable="false" />
+    <Property Name="Votings_Id" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="ContestantProfile">
-    <End Role="Contestant" Type="Saimoe.Models.EF.Store.Contestants" Multiplicity="*" />
-    <End Role="Profile" Type="Saimoe.Models.EF.Store.Profiles" Multiplicity="1" />
+    <End Role="Contestant" Type="Saimoe.Models.Store.Contestants" Multiplicity="*" />
+    <End Role="Profile" Type="Saimoe.Models.Store.Profiles" Multiplicity="1" />
     <ReferentialConstraint>
       <Principal Role="Profile">
         <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="Contestant">
         <PropertyRef Name="Profile_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ProfileUserCache">
+    <End Role="Profile" Type="Saimoe.Models.Store.Profiles" Multiplicity="*" />
+    <End Role="UserCache" Type="Saimoe.Models.Store.UserCaches" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="UserCache">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Profile">
+        <PropertyRef Name="UserCaches_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ContestantVoting_Contestant">
+    <End Role="Contestant" Type="Saimoe.Models.Store.Contestants" Multiplicity="1" />
+    <End Role="ContestantVoting" Type="Saimoe.Models.Store.ContestantVoting" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Contestant">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ContestantVoting">
+        <PropertyRef Name="Contestants_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ContestantVoting_Voting">
+    <End Role="ContestantVoting" Type="Saimoe.Models.Store.ContestantVoting" Multiplicity="*" />
+    <End Role="Voting" Type="Saimoe.Models.Store.Votings" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Voting">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ContestantVoting">
+        <PropertyRef Name="Votings_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -57,6 +143,17 @@
           <AssociationSet Name="ContestantProfile" Association="Saimoe.Models.ContestantProfile">
             <End Role="Contestant" EntitySet="Contestants" />
             <End Role="Profile" EntitySet="Profiles" />
+          </AssociationSet>
+          <EntitySet Name="Administrators" EntityType="Saimoe.Models.Administrator" />
+          <EntitySet Name="Votings" EntityType="Saimoe.Models.Voting" />
+          <EntitySet Name="UserCaches" EntityType="Saimoe.Models.UserCache" />
+          <AssociationSet Name="ContestantVoting" Association="Saimoe.Models.ContestantVoting">
+            <End Role="Contestant" EntitySet="Contestants" />
+            <End Role="Voting" EntitySet="Votings" />
+          </AssociationSet>
+          <AssociationSet Name="ProfileUserCache" Association="Saimoe.Models.ProfileUserCache">
+            <End Role="Profile" EntitySet="Profiles" />
+            <End Role="UserCache" EntitySet="UserCaches" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Contestant">
@@ -76,6 +173,7 @@
           <Property Type="DateTime" Name="CreatedDate" Nullable="false" />
           <Property Type="DateTime" Name="LastLoginDate" Nullable="false" />
           <NavigationProperty Name="Profile" Relationship="Saimoe.Models.ContestantProfile" FromRole="Contestant" ToRole="Profile" />
+          <NavigationProperty Name="Votings" Relationship="Saimoe.Models.ContestantVoting" FromRole="Contestant" ToRole="Voting" />
         </EntityType>
         <EntityType Name="Profile">
           <Key>
@@ -89,17 +187,53 @@
           <Property Type="String" Name="Tagline" Nullable="false" />
           <NavigationProperty Name="Contestant" Relationship="Saimoe.Models.ContestantProfile" FromRole="Profile" ToRole="Contestant" />
           <Property Type="DateTime" Name="JoinedDate" Nullable="false" />
+          <NavigationProperty Name="UserCaches" Relationship="Saimoe.Models.ProfileUserCache" FromRole="Profile" ToRole="UserCache" />
         </EntityType>
         <Association Name="ContestantProfile">
           <End Type="Saimoe.Models.Contestant" Role="Contestant" Multiplicity="1" />
           <End Type="Saimoe.Models.Profile" Role="Profile" Multiplicity="1" />
+        </Association>
+        <EntityType Name="Administrator">
+          <Key>
+            <PropertyRef Name="GooglePlusId" />
+          </Key>
+          <Property Type="String" Name="GooglePlusId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="Voting">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="false" />
+          <Property Type="DateTime" Name="Deadline" Nullable="false" />
+          <Property Type="String" Name="Description" Nullable="false" />
+          <NavigationProperty Name="Contestants" Relationship="Saimoe.Models.ContestantVoting" FromRole="Voting" ToRole="Contestant" />
+          <Property Type="Byte" Name="Status" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserCache">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" />
+          <Property Type="Binary" Name="Photo" Nullable="false" />
+          <NavigationProperty Name="Profile" Relationship="Saimoe.Models.ProfileUserCache" FromRole="UserCache" ToRole="Profile" />
+        </EntityType>
+        <Association Name="ContestantVoting">
+          <End Type="Saimoe.Models.Contestant" Role="Contestant" Multiplicity="*" />
+          <End Type="Saimoe.Models.Voting" Role="Voting" Multiplicity="*" />
+        </Association>
+        <Association Name="ProfileUserCache">
+          <End Type="Saimoe.Models.Profile" Role="Profile" Multiplicity="1" />
+          <End Type="Saimoe.Models.UserCache" Role="UserCache" Multiplicity="1" />
         </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
     <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
-  <EntityContainerMapping StorageEntityContainer="SaimoeModelsEFStoreContainer" CdmEntityContainer="SaimoeContext">
+  <EntityContainerMapping StorageEntityContainer="SaimoeModelsStoreContainer" CdmEntityContainer="SaimoeContext">
     <EntitySetMapping Name="Contestants">
       <EntityTypeMapping TypeName="IsTypeOf(Saimoe.Models.Contestant)">
         <MappingFragment StoreEntitySet="Contestants">
@@ -123,11 +257,55 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Administrators">
+      <EntityTypeMapping TypeName="IsTypeOf(Saimoe.Models.Administrator)">
+        <MappingFragment StoreEntitySet="Administrators">
+          <ScalarProperty Name="GooglePlusId" ColumnName="GooglePlusId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Votings">
+      <EntityTypeMapping TypeName="IsTypeOf(Saimoe.Models.Voting)">
+        <MappingFragment StoreEntitySet="Votings">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="Deadline" ColumnName="Deadline" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserCaches">
+      <EntityTypeMapping TypeName="IsTypeOf(Saimoe.Models.UserCache)">
+        <MappingFragment StoreEntitySet="UserCaches">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Photo" ColumnName="Photo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <AssociationSetMapping Name="ContestantProfile" TypeName="Saimoe.Models.ContestantProfile" StoreEntitySet="Contestants">
       <EndProperty Name="Profile">
         <ScalarProperty Name="Id" ColumnName="Profile_Id" />
       </EndProperty>
       <EndProperty Name="Contestant">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="ContestantVoting" TypeName="Saimoe.Models.ContestantVoting" StoreEntitySet="ContestantVoting">
+      <EndProperty Name="Contestant">
+        <ScalarProperty Name="Id" ColumnName="Contestants_Id" />
+      </EndProperty>
+      <EndProperty Name="Voting">
+        <ScalarProperty Name="Id" ColumnName="Votings_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="ProfileUserCache" TypeName="Saimoe.Models.ProfileUserCache" StoreEntitySet="Profiles">
+      <EndProperty Name="UserCache">
+        <ScalarProperty Name="Id" ColumnName="UserCaches_Id" />
+      </EndProperty>
+      <EndProperty Name="Profile">
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
     </AssociationSetMapping>
@@ -155,6 +333,18 @@
         <AssociationConnector Association="Saimoe.Models.ContestantProfile">
           <ConnectorPoint PointX="2.25" PointY="1.4850162760416668" />
           <ConnectorPoint PointX="3.125" PointY="1.4850162760416668" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="Saimoe.Models.Administrator" Width="1.5" PointX="7.625" PointY="0.625" Height="1.205953776041667" />
+        <EntityTypeShape EntityType="Saimoe.Models.Voting" Width="1.5" PointX="2.75" PointY="4.125" Height="1.9700325520833326" />
+        <EntityTypeShape EntityType="Saimoe.Models.UserCache" Width="1.5" PointX="5.625" PointY="0.625" Height="1.779012858072917" />
+        <AssociationConnector Association="Saimoe.Models.ContestantVoting">
+          <ConnectorPoint PointX="1.5" PointY="2.66105224609375" />
+          <ConnectorPoint PointX="1.5" PointY="5.2055261230468748" />
+          <ConnectorPoint PointX="2.75" PointY="5.2055261230468748" />
+        </AssociationConnector>
+        <AssociationConnector Association="Saimoe.Models.ProfileUserCache">
+          <ConnectorPoint PointX="4.625" PointY="1.5145064290364585" />
+          <ConnectorPoint PointX="5.625" PointY="1.5145064290364585" />
         </AssociationConnector>
       </Diagram>
     </edmx:Diagrams>

@@ -119,6 +119,7 @@
   <ItemGroup>
     <Compile Include="ContestantGroupingServiceTest.cs" />
     <Compile Include="ContestantServiceTest.cs" />
+    <Compile Include="ContestantRepositoryTest.cs" />
     <Compile Include="ModelMappingUtilTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
