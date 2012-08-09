@@ -133,6 +133,8 @@
     <Compile Include="Infra\ContestantCsvHelper.cs" />
     <Compile Include="Infra\EnumerableExtensions.cs" />
     <Compile Include="Infra\ModelMappingUtil.cs" />
+    <Compile Include="Models\VotingStatus.cs" />
+    <Compile Include="Models\GroupingStatus.cs" />
     <Compile Include="Models\Saimoe.cs" />
     <Compile Include="Models\Saimoe.meta.cs" />
     <Compile Include="Models\Saimoe.Designer.cs">
@@ -144,8 +146,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\AdministratorRepository.cs" />
     <Compile Include="Repository\ContestantRepository.cs" />
-    <Compile Include="Repository\VotingRepository.cs" />
-    <Compile Include="Repository\VotingService.cs" />
+    <Compile Include="Repository\ContestRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\FilterConfig.cs" />

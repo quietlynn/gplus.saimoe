@@ -20,8 +20,11 @@ using System.Xml.Serialization;
 #region EDM Relationship Metadata
 
 [assembly: EdmRelationshipAttribute("Saimoe.Models", "ContestantProfile", "Contestant", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Saimoe.Models.Contestant), "Profile", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Saimoe.Models.Profile))]
-[assembly: EdmRelationshipAttribute("Saimoe.Models", "ContestantVoting", "Contestant", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Saimoe.Models.Contestant), "Voting", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Saimoe.Models.Voting))]
 [assembly: EdmRelationshipAttribute("Saimoe.Models", "ProfileUserCache", "Profile", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Saimoe.Models.Profile), "UserCache", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Saimoe.Models.UserCache))]
+[assembly: EdmRelationshipAttribute("Saimoe.Models", "ContestantGrouping", "Contestant", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Saimoe.Models.Contestant), "Grouping", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Saimoe.Models.Grouping))]
+[assembly: EdmRelationshipAttribute("Saimoe.Models", "ContestGrouping", "Contest", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Saimoe.Models.Contest), "Grouping", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Saimoe.Models.Grouping))]
+[assembly: EdmRelationshipAttribute("Saimoe.Models", "ContestantVote", "Contestant", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Saimoe.Models.Contestant), "Vote", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Saimoe.Models.Vote))]
+[assembly: EdmRelationshipAttribute("Saimoe.Models", "GroupingVote", "Grouping", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Saimoe.Models.Grouping), "Vote", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Saimoe.Models.Vote))]
 
 #endregion
 
@@ -124,18 +127,18 @@ namespace Saimoe.Models
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        public ObjectSet<Voting> Votings
+        public ObjectSet<Contest> Contests
         {
             get
             {
-                if ((_Votings == null))
+                if ((_Contests == null))
                 {
-                    _Votings = base.CreateObjectSet<Voting>("Votings");
+                    _Contests = base.CreateObjectSet<Contest>("Contests");
                 }
-                return _Votings;
+                return _Contests;
             }
         }
-        private ObjectSet<Voting> _Votings;
+        private ObjectSet<Contest> _Contests;
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -152,6 +155,38 @@ namespace Saimoe.Models
             }
         }
         private ObjectSet<UserCache> _UserCaches;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<Grouping> Groupings
+        {
+            get
+            {
+                if ((_Groupings == null))
+                {
+                    _Groupings = base.CreateObjectSet<Grouping>("Groupings");
+                }
+                return _Groupings;
+            }
+        }
+        private ObjectSet<Grouping> _Groupings;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<Vote> Votes
+        {
+            get
+            {
+                if ((_Votes == null))
+                {
+                    _Votes = base.CreateObjectSet<Vote>("Votes");
+                }
+                return _Votes;
+            }
+        }
+        private ObjectSet<Vote> _Votes;
 
         #endregion
 
@@ -182,11 +217,11 @@ namespace Saimoe.Models
         }
     
         /// <summary>
-        /// Deprecated Method for adding a new object to the Votings EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// Deprecated Method for adding a new object to the Contests EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
-        public void AddToVotings(Voting voting)
+        public void AddToContests(Contest contest)
         {
-            base.AddObject("Votings", voting);
+            base.AddObject("Contests", contest);
         }
     
         /// <summary>
@@ -195,6 +230,22 @@ namespace Saimoe.Models
         public void AddToUserCaches(UserCache userCache)
         {
             base.AddObject("UserCaches", userCache);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the Groupings EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToGroupings(Grouping grouping)
+        {
+            base.AddObject("Groupings", grouping);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the Votes EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToVotes(Vote vote)
+        {
+            base.AddObject("Votes", vote);
         }
 
         #endregion
@@ -260,6 +311,271 @@ namespace Saimoe.Models
         #endregion
 
     
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="Saimoe.Models", Name="Contest")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class Contest : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new Contest object.
+        /// </summary>
+        /// <param name="id">Initial value of the Id property.</param>
+        /// <param name="name">Initial value of the Name property.</param>
+        /// <param name="createdDate">Initial value of the CreatedDate property.</param>
+        /// <param name="deadline">Initial value of the Deadline property.</param>
+        /// <param name="description">Initial value of the Description property.</param>
+        /// <param name="status">Initial value of the Status property.</param>
+        /// <param name="mininumVoteNumber">Initial value of the MininumVoteNumber property.</param>
+        /// <param name="maximumVoteNumber">Initial value of the MaximumVoteNumber property.</param>
+        public static Contest CreateContest(global::System.Int32 id, global::System.String name, global::System.DateTime createdDate, global::System.DateTime deadline, global::System.String description, global::System.Byte status, global::System.Int32 mininumVoteNumber, global::System.Int32 maximumVoteNumber)
+        {
+            Contest contest = new Contest();
+            contest.Id = id;
+            contest.Name = name;
+            contest.CreatedDate = createdDate;
+            contest.Deadline = deadline;
+            contest.Description = description;
+            contest.Status = status;
+            contest.MininumVoteNumber = mininumVoteNumber;
+            contest.MaximumVoteNumber = maximumVoteNumber;
+            return contest;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 Id
+        {
+            get
+            {
+                return _Id;
+            }
+            set
+            {
+                if (_Id != value)
+                {
+                    OnIdChanging(value);
+                    ReportPropertyChanging("Id");
+                    _Id = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("Id");
+                    OnIdChanged();
+                }
+            }
+        }
+        private global::System.Int32 _Id;
+        partial void OnIdChanging(global::System.Int32 value);
+        partial void OnIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String Name
+        {
+            get
+            {
+                return _Name;
+            }
+            set
+            {
+                OnNameChanging(value);
+                ReportPropertyChanging("Name");
+                _Name = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("Name");
+                OnNameChanged();
+            }
+        }
+        private global::System.String _Name;
+        partial void OnNameChanging(global::System.String value);
+        partial void OnNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.DateTime CreatedDate
+        {
+            get
+            {
+                return _CreatedDate;
+            }
+            set
+            {
+                OnCreatedDateChanging(value);
+                ReportPropertyChanging("CreatedDate");
+                _CreatedDate = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("CreatedDate");
+                OnCreatedDateChanged();
+            }
+        }
+        private global::System.DateTime _CreatedDate;
+        partial void OnCreatedDateChanging(global::System.DateTime value);
+        partial void OnCreatedDateChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.DateTime Deadline
+        {
+            get
+            {
+                return _Deadline;
+            }
+            set
+            {
+                OnDeadlineChanging(value);
+                ReportPropertyChanging("Deadline");
+                _Deadline = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Deadline");
+                OnDeadlineChanged();
+            }
+        }
+        private global::System.DateTime _Deadline;
+        partial void OnDeadlineChanging(global::System.DateTime value);
+        partial void OnDeadlineChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String Description
+        {
+            get
+            {
+                return _Description;
+            }
+            set
+            {
+                OnDescriptionChanging(value);
+                ReportPropertyChanging("Description");
+                _Description = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("Description");
+                OnDescriptionChanged();
+            }
+        }
+        private global::System.String _Description;
+        partial void OnDescriptionChanging(global::System.String value);
+        partial void OnDescriptionChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Byte Status
+        {
+            get
+            {
+                return _Status;
+            }
+            set
+            {
+                OnStatusChanging(value);
+                ReportPropertyChanging("Status");
+                _Status = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Status");
+                OnStatusChanged();
+            }
+        }
+        private global::System.Byte _Status;
+        partial void OnStatusChanging(global::System.Byte value);
+        partial void OnStatusChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 MininumVoteNumber
+        {
+            get
+            {
+                return _MininumVoteNumber;
+            }
+            set
+            {
+                OnMininumVoteNumberChanging(value);
+                ReportPropertyChanging("MininumVoteNumber");
+                _MininumVoteNumber = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("MininumVoteNumber");
+                OnMininumVoteNumberChanged();
+            }
+        }
+        private global::System.Int32 _MininumVoteNumber;
+        partial void OnMininumVoteNumberChanging(global::System.Int32 value);
+        partial void OnMininumVoteNumberChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 MaximumVoteNumber
+        {
+            get
+            {
+                return _MaximumVoteNumber;
+            }
+            set
+            {
+                OnMaximumVoteNumberChanging(value);
+                ReportPropertyChanging("MaximumVoteNumber");
+                _MaximumVoteNumber = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("MaximumVoteNumber");
+                OnMaximumVoteNumberChanged();
+            }
+        }
+        private global::System.Int32 _MaximumVoteNumber;
+        partial void OnMaximumVoteNumberChanging(global::System.Int32 value);
+        partial void OnMaximumVoteNumberChanged();
+
+        #endregion
+
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("Saimoe.Models", "ContestGrouping", "Grouping")]
+        public EntityCollection<Grouping> Groupings
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Grouping>("Saimoe.Models.ContestGrouping", "Grouping");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Grouping>("Saimoe.Models.ContestGrouping", "Grouping", value);
+                }
+            }
+        }
+
+        #endregion
+
     }
     
     /// <summary>
@@ -444,18 +760,235 @@ namespace Saimoe.Models
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("Saimoe.Models", "ContestantVoting", "Voting")]
-        public EntityCollection<Voting> Votings
+        [EdmRelationshipNavigationPropertyAttribute("Saimoe.Models", "ContestantGrouping", "Grouping")]
+        public EntityCollection<Grouping> Groupings
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Voting>("Saimoe.Models.ContestantVoting", "Voting");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Grouping>("Saimoe.Models.ContestantGrouping", "Grouping");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Voting>("Saimoe.Models.ContestantVoting", "Voting", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Grouping>("Saimoe.Models.ContestantGrouping", "Grouping", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("Saimoe.Models", "ContestantVote", "Vote")]
+        public EntityCollection<Vote> Votes
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Vote>("Saimoe.Models.ContestantVote", "Vote");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Vote>("Saimoe.Models.ContestantVote", "Vote", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="Saimoe.Models", Name="Grouping")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class Grouping : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new Grouping object.
+        /// </summary>
+        /// <param name="id">Initial value of the Id property.</param>
+        /// <param name="name">Initial value of the Name property.</param>
+        /// <param name="status">Initial value of the Status property.</param>
+        public static Grouping CreateGrouping(global::System.Int32 id, global::System.String name, global::System.String status)
+        {
+            Grouping grouping = new Grouping();
+            grouping.Id = id;
+            grouping.Name = name;
+            grouping.Status = status;
+            return grouping;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 Id
+        {
+            get
+            {
+                return _Id;
+            }
+            set
+            {
+                if (_Id != value)
+                {
+                    OnIdChanging(value);
+                    ReportPropertyChanging("Id");
+                    _Id = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("Id");
+                    OnIdChanged();
+                }
+            }
+        }
+        private global::System.Int32 _Id;
+        partial void OnIdChanging(global::System.Int32 value);
+        partial void OnIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String Name
+        {
+            get
+            {
+                return _Name;
+            }
+            set
+            {
+                OnNameChanging(value);
+                ReportPropertyChanging("Name");
+                _Name = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("Name");
+                OnNameChanged();
+            }
+        }
+        private global::System.String _Name;
+        partial void OnNameChanging(global::System.String value);
+        partial void OnNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String Status
+        {
+            get
+            {
+                return _Status;
+            }
+            set
+            {
+                OnStatusChanging(value);
+                ReportPropertyChanging("Status");
+                _Status = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("Status");
+                OnStatusChanged();
+            }
+        }
+        private global::System.String _Status;
+        partial void OnStatusChanging(global::System.String value);
+        partial void OnStatusChanged();
+
+        #endregion
+
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("Saimoe.Models", "ContestantGrouping", "Contestant")]
+        public EntityCollection<Contestant> Contestants
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Contestant>("Saimoe.Models.ContestantGrouping", "Contestant");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Contestant>("Saimoe.Models.ContestantGrouping", "Contestant", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("Saimoe.Models", "ContestGrouping", "Contest")]
+        public Contest Contest
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Contest>("Saimoe.Models.ContestGrouping", "Contest").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Contest>("Saimoe.Models.ContestGrouping", "Contest").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Contest> ContestReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Contest>("Saimoe.Models.ContestGrouping", "Contest");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Contest>("Saimoe.Models.ContestGrouping", "Contest", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("Saimoe.Models", "GroupingVote", "Vote")]
+        public EntityCollection<Vote> Votes
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Vote>("Saimoe.Models.GroupingVote", "Vote");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Vote>("Saimoe.Models.GroupingVote", "Vote", value);
                 }
             }
         }
@@ -909,32 +1442,28 @@ namespace Saimoe.Models
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="Saimoe.Models", Name="Voting")]
+    [EdmEntityTypeAttribute(NamespaceName="Saimoe.Models", Name="Vote")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
-    public partial class Voting : EntityObject
+    public partial class Vote : EntityObject
     {
         #region Factory Method
     
         /// <summary>
-        /// Create a new Voting object.
+        /// Create a new Vote object.
         /// </summary>
         /// <param name="id">Initial value of the Id property.</param>
-        /// <param name="name">Initial value of the Name property.</param>
         /// <param name="createdDate">Initial value of the CreatedDate property.</param>
-        /// <param name="deadline">Initial value of the Deadline property.</param>
-        /// <param name="description">Initial value of the Description property.</param>
+        /// <param name="googlePlusId">Initial value of the GooglePlusId property.</param>
         /// <param name="status">Initial value of the Status property.</param>
-        public static Voting CreateVoting(global::System.Int32 id, global::System.String name, global::System.DateTime createdDate, global::System.DateTime deadline, global::System.String description, global::System.Byte status)
+        public static Vote CreateVote(global::System.Int32 id, global::System.String createdDate, global::System.String googlePlusId, global::System.Int32 status)
         {
-            Voting voting = new Voting();
-            voting.Id = id;
-            voting.Name = name;
-            voting.CreatedDate = createdDate;
-            voting.Deadline = deadline;
-            voting.Description = description;
-            voting.Status = status;
-            return voting;
+            Vote vote = new Vote();
+            vote.Id = id;
+            vote.CreatedDate = createdDate;
+            vote.GooglePlusId = googlePlusId;
+            vote.Status = status;
+            return vote;
         }
 
         #endregion
@@ -973,31 +1502,7 @@ namespace Saimoe.Models
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.String Name
-        {
-            get
-            {
-                return _Name;
-            }
-            set
-            {
-                OnNameChanging(value);
-                ReportPropertyChanging("Name");
-                _Name = StructuralObject.SetValidValue(value, false);
-                ReportPropertyChanged("Name");
-                OnNameChanged();
-            }
-        }
-        private global::System.String _Name;
-        partial void OnNameChanging(global::System.String value);
-        partial void OnNameChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.DateTime CreatedDate
+        public global::System.String CreatedDate
         {
             get
             {
@@ -1007,13 +1512,13 @@ namespace Saimoe.Models
             {
                 OnCreatedDateChanging(value);
                 ReportPropertyChanging("CreatedDate");
-                _CreatedDate = StructuralObject.SetValidValue(value);
+                _CreatedDate = StructuralObject.SetValidValue(value, false);
                 ReportPropertyChanged("CreatedDate");
                 OnCreatedDateChanged();
             }
         }
-        private global::System.DateTime _CreatedDate;
-        partial void OnCreatedDateChanging(global::System.DateTime value);
+        private global::System.String _CreatedDate;
+        partial void OnCreatedDateChanging(global::System.String value);
         partial void OnCreatedDateChanged();
     
         /// <summary>
@@ -1021,55 +1526,31 @@ namespace Saimoe.Models
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.DateTime Deadline
+        public global::System.String GooglePlusId
         {
             get
             {
-                return _Deadline;
+                return _GooglePlusId;
             }
             set
             {
-                OnDeadlineChanging(value);
-                ReportPropertyChanging("Deadline");
-                _Deadline = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("Deadline");
-                OnDeadlineChanged();
+                OnGooglePlusIdChanging(value);
+                ReportPropertyChanging("GooglePlusId");
+                _GooglePlusId = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("GooglePlusId");
+                OnGooglePlusIdChanged();
             }
         }
-        private global::System.DateTime _Deadline;
-        partial void OnDeadlineChanging(global::System.DateTime value);
-        partial void OnDeadlineChanged();
+        private global::System.String _GooglePlusId;
+        partial void OnGooglePlusIdChanging(global::System.String value);
+        partial void OnGooglePlusIdChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.String Description
-        {
-            get
-            {
-                return _Description;
-            }
-            set
-            {
-                OnDescriptionChanging(value);
-                ReportPropertyChanging("Description");
-                _Description = StructuralObject.SetValidValue(value, false);
-                ReportPropertyChanged("Description");
-                OnDescriptionChanged();
-            }
-        }
-        private global::System.String _Description;
-        partial void OnDescriptionChanging(global::System.String value);
-        partial void OnDescriptionChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Byte Status
+        public global::System.Int32 Status
         {
             get
             {
@@ -1084,8 +1565,8 @@ namespace Saimoe.Models
                 OnStatusChanged();
             }
         }
-        private global::System.Byte _Status;
-        partial void OnStatusChanging(global::System.Byte value);
+        private global::System.Int32 _Status;
+        partial void OnStatusChanging(global::System.Int32 value);
         partial void OnStatusChanged();
 
         #endregion
@@ -1099,18 +1580,72 @@ namespace Saimoe.Models
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("Saimoe.Models", "ContestantVoting", "Contestant")]
-        public EntityCollection<Contestant> Contestants
+        [EdmRelationshipNavigationPropertyAttribute("Saimoe.Models", "ContestantVote", "Contestant")]
+        public Contestant Contestant
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Contestant>("Saimoe.Models.ContestantVoting", "Contestant");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Contestant>("Saimoe.Models.ContestantVote", "Contestant").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Contestant>("Saimoe.Models.ContestantVote", "Contestant").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Contestant> ContestantReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Contestant>("Saimoe.Models.ContestantVote", "Contestant");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Contestant>("Saimoe.Models.ContestantVoting", "Contestant", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Contestant>("Saimoe.Models.ContestantVote", "Contestant", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("Saimoe.Models", "GroupingVote", "Grouping")]
+        public Grouping Grouping
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Grouping>("Saimoe.Models.GroupingVote", "Grouping").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Grouping>("Saimoe.Models.GroupingVote", "Grouping").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Grouping> GroupingReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Grouping>("Saimoe.Models.GroupingVote", "Grouping");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Grouping>("Saimoe.Models.GroupingVote", "Grouping", value);
                 }
             }
         }

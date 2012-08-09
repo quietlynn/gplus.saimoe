@@ -9,24 +9,38 @@
     <EntitySet Name="Contestants" EntityType="Saimoe.Models.Store.Contestants" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Profiles" EntityType="Saimoe.Models.Store.Profiles" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Administrators" EntityType="Saimoe.Models.Store.Administrators" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Votings" EntityType="Saimoe.Models.Store.Votings" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Contests" EntityType="Saimoe.Models.Store.Contests" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="UserCaches" EntityType="Saimoe.Models.Store.UserCaches" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="ContestantVoting" EntityType="Saimoe.Models.Store.ContestantVoting" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Groupings" EntityType="Saimoe.Models.Store.Groupings" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Votes" EntityType="Saimoe.Models.Store.Votes" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ContestantGrouping" EntityType="Saimoe.Models.Store.ContestantGrouping" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="ContestantProfile" Association="Saimoe.Models.Store.ContestantProfile">
       <End Role="Contestant" EntitySet="Contestants" />
       <End Role="Profile" EntitySet="Profiles" />
     </AssociationSet>
-    <AssociationSet Name="FK_ContestantVoting_Contestant" Association="Saimoe.Models.Store.FK_ContestantVoting_Contestant">
-      <End Role="Contestant" EntitySet="Contestants" />
-      <End Role="ContestantVoting" EntitySet="ContestantVoting" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ContestantVoting_Voting" Association="Saimoe.Models.Store.FK_ContestantVoting_Voting">
-      <End Role="Voting" EntitySet="Votings" />
-      <End Role="ContestantVoting" EntitySet="ContestantVoting" />
-    </AssociationSet>
     <AssociationSet Name="ProfileUserCache" Association="Saimoe.Models.Store.ProfileUserCache">
       <End Role="Profile" EntitySet="Profiles" />
       <End Role="UserCache" EntitySet="UserCaches" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ContestantGrouping_Contestant" Association="Saimoe.Models.Store.FK_ContestantGrouping_Contestant">
+      <End Role="Contestant" EntitySet="Contestants" />
+      <End Role="ContestantGrouping" EntitySet="ContestantGrouping" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ContestantGrouping_Grouping" Association="Saimoe.Models.Store.FK_ContestantGrouping_Grouping">
+      <End Role="Grouping" EntitySet="Groupings" />
+      <End Role="ContestantGrouping" EntitySet="ContestantGrouping" />
+    </AssociationSet>
+    <AssociationSet Name="ContestGrouping" Association="Saimoe.Models.Store.ContestGrouping">
+      <End Role="Contest" EntitySet="Contests" />
+      <End Role="Grouping" EntitySet="Groupings" />
+    </AssociationSet>
+    <AssociationSet Name="ContestantVote" Association="Saimoe.Models.Store.ContestantVote">
+      <End Role="Contestant" EntitySet="Contestants" />
+      <End Role="Vote" EntitySet="Votes" />
+    </AssociationSet>
+    <AssociationSet Name="GroupingVote" Association="Saimoe.Models.Store.GroupingVote">
+      <End Role="Grouping" EntitySet="Groupings" />
+      <End Role="Vote" EntitySet="Votes" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="Contestants">
@@ -58,7 +72,7 @@
     </Key>
     <Property Name="GooglePlusId" Type="nvarchar(max)" StoreGeneratedPattern="Identity" Nullable="false" />
   </EntityType>
-  <EntityType Name="Votings">
+  <EntityType Name="Contests">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
@@ -68,6 +82,8 @@
     <Property Name="Deadline" Type="datetime" Nullable="false" />
     <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Status" Type="tinyint" Nullable="false" />
+    <Property Name="MininumVoteNumber" Type="int" Nullable="false" />
+    <Property Name="MaximumVoteNumber" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="UserCaches">
     <Key>
@@ -77,13 +93,33 @@
     <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Photo" Type="varbinary(max)" Nullable="false" />
   </EntityType>
-  <EntityType Name="ContestantVoting">
+  <EntityType Name="Groupings">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Status" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Contest_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Votes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CreatedDate" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="GooglePlusId" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Status" Type="int" Nullable="false" />
+    <Property Name="Contestant_Id" Type="int" Nullable="false" />
+    <Property Name="Grouping_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ContestantGrouping">
     <Key>
       <PropertyRef Name="Contestants_Id" />
-      <PropertyRef Name="Votings_Id" />
+      <PropertyRef Name="Groupings_Id" />
     </Key>
     <Property Name="Contestants_Id" Type="int" Nullable="false" />
-    <Property Name="Votings_Id" Type="int" Nullable="false" />
+    <Property Name="Groupings_Id" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="ContestantProfile">
     <End Role="Contestant" Type="Saimoe.Models.Store.Contestants" Multiplicity="*" />
@@ -109,27 +145,63 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_ContestantVoting_Contestant">
+  <Association Name="ContestGrouping">
+    <End Role="Contest" Type="Saimoe.Models.Store.Contests" Multiplicity="1" />
+    <End Role="Grouping" Type="Saimoe.Models.Store.Groupings" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Contest">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Grouping">
+        <PropertyRef Name="Contest_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ContestantVote">
     <End Role="Contestant" Type="Saimoe.Models.Store.Contestants" Multiplicity="1" />
-    <End Role="ContestantVoting" Type="Saimoe.Models.Store.ContestantVoting" Multiplicity="*" />
+    <End Role="Vote" Type="Saimoe.Models.Store.Votes" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Contestant">
         <PropertyRef Name="Id" />
       </Principal>
-      <Dependent Role="ContestantVoting">
+      <Dependent Role="Vote">
+        <PropertyRef Name="Contestant_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="GroupingVote">
+    <End Role="Grouping" Type="Saimoe.Models.Store.Groupings" Multiplicity="1" />
+    <End Role="Vote" Type="Saimoe.Models.Store.Votes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Grouping">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Vote">
+        <PropertyRef Name="Grouping_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ContestantGrouping_Contestant">
+    <End Role="Contestant" Type="Saimoe.Models.Store.Contestants" Multiplicity="1" />
+    <End Role="ContestantGrouping" Type="Saimoe.Models.Store.ContestantGrouping" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Contestant">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ContestantGrouping">
         <PropertyRef Name="Contestants_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_ContestantVoting_Voting">
-    <End Role="ContestantVoting" Type="Saimoe.Models.Store.ContestantVoting" Multiplicity="*" />
-    <End Role="Voting" Type="Saimoe.Models.Store.Votings" Multiplicity="1" />
+  <Association Name="FK_ContestantGrouping_Grouping">
+    <End Role="ContestantGrouping" Type="Saimoe.Models.Store.ContestantGrouping" Multiplicity="*" />
+    <End Role="Grouping" Type="Saimoe.Models.Store.Groupings" Multiplicity="1" />
     <ReferentialConstraint>
-      <Principal Role="Voting">
+      <Principal Role="Grouping">
         <PropertyRef Name="Id" />
       </Principal>
-      <Dependent Role="ContestantVoting">
-        <PropertyRef Name="Votings_Id" />
+      <Dependent Role="ContestantGrouping">
+        <PropertyRef Name="Groupings_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -145,15 +217,29 @@
             <End Role="Profile" EntitySet="Profiles" />
           </AssociationSet>
           <EntitySet Name="Administrators" EntityType="Saimoe.Models.Administrator" />
-          <EntitySet Name="Votings" EntityType="Saimoe.Models.Voting" />
+          <EntitySet Name="Contests" EntityType="Saimoe.Models.Contest" />
           <EntitySet Name="UserCaches" EntityType="Saimoe.Models.UserCache" />
-          <AssociationSet Name="ContestantVoting" Association="Saimoe.Models.ContestantVoting">
-            <End Role="Contestant" EntitySet="Contestants" />
-            <End Role="Voting" EntitySet="Votings" />
-          </AssociationSet>
           <AssociationSet Name="ProfileUserCache" Association="Saimoe.Models.ProfileUserCache">
             <End Role="Profile" EntitySet="Profiles" />
             <End Role="UserCache" EntitySet="UserCaches" />
+          </AssociationSet>
+          <EntitySet Name="Groupings" EntityType="Saimoe.Models.Grouping" />
+          <AssociationSet Name="ContestantGrouping" Association="Saimoe.Models.ContestantGrouping">
+            <End Role="Contestant" EntitySet="Contestants" />
+            <End Role="Grouping" EntitySet="Groupings" />
+          </AssociationSet>
+          <AssociationSet Name="ContestGrouping" Association="Saimoe.Models.ContestGrouping">
+            <End Role="Contest" EntitySet="Contests" />
+            <End Role="Grouping" EntitySet="Groupings" />
+          </AssociationSet>
+          <EntitySet Name="Votes" EntityType="Saimoe.Models.Vote" />
+          <AssociationSet Name="ContestantVote" Association="Saimoe.Models.ContestantVote">
+            <End Role="Contestant" EntitySet="Contestants" />
+            <End Role="Vote" EntitySet="Votes" />
+          </AssociationSet>
+          <AssociationSet Name="GroupingVote" Association="Saimoe.Models.GroupingVote">
+            <End Role="Grouping" EntitySet="Groupings" />
+            <End Role="Vote" EntitySet="Votes" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Contestant">
@@ -173,7 +259,8 @@
           <Property Type="DateTime" Name="CreatedDate" Nullable="false" />
           <Property Type="DateTime" Name="LastLoginDate" Nullable="false" />
           <NavigationProperty Name="Profile" Relationship="Saimoe.Models.ContestantProfile" FromRole="Contestant" ToRole="Profile" />
-          <NavigationProperty Name="Votings" Relationship="Saimoe.Models.ContestantVoting" FromRole="Contestant" ToRole="Voting" />
+          <NavigationProperty Name="Groupings" Relationship="Saimoe.Models.ContestantGrouping" FromRole="Contestant" ToRole="Grouping" />
+          <NavigationProperty Name="Votes" Relationship="Saimoe.Models.ContestantVote" FromRole="Contestant" ToRole="Vote" />
         </EntityType>
         <EntityType Name="Profile">
           <Key>
@@ -199,7 +286,7 @@
           </Key>
           <Property Type="String" Name="GooglePlusId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
         </EntityType>
-        <EntityType Name="Voting">
+        <EntityType Name="Contest">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -208,8 +295,10 @@
           <Property Type="DateTime" Name="CreatedDate" Nullable="false" />
           <Property Type="DateTime" Name="Deadline" Nullable="false" />
           <Property Type="String" Name="Description" Nullable="false" />
-          <NavigationProperty Name="Contestants" Relationship="Saimoe.Models.ContestantVoting" FromRole="Voting" ToRole="Contestant" />
           <Property Type="Byte" Name="Status" Nullable="false" />
+          <Property Type="Int32" Name="MininumVoteNumber" Nullable="false" />
+          <Property Type="Int32" Name="MaximumVoteNumber" Nullable="false" />
+          <NavigationProperty Name="Groupings" Relationship="Saimoe.Models.ContestGrouping" FromRole="Contest" ToRole="Grouping" />
         </EntityType>
         <EntityType Name="UserCache">
           <Key>
@@ -220,13 +309,47 @@
           <Property Type="Binary" Name="Photo" Nullable="false" />
           <NavigationProperty Name="Profile" Relationship="Saimoe.Models.ProfileUserCache" FromRole="UserCache" ToRole="Profile" />
         </EntityType>
-        <Association Name="ContestantVoting">
-          <End Type="Saimoe.Models.Contestant" Role="Contestant" Multiplicity="*" />
-          <End Type="Saimoe.Models.Voting" Role="Voting" Multiplicity="*" />
-        </Association>
         <Association Name="ProfileUserCache">
           <End Type="Saimoe.Models.Profile" Role="Profile" Multiplicity="1" />
           <End Type="Saimoe.Models.UserCache" Role="UserCache" Multiplicity="1" />
+        </Association>
+        <EntityType Name="Grouping">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Contestants" Relationship="Saimoe.Models.ContestantGrouping" FromRole="Grouping" ToRole="Contestant" />
+          <Property Type="String" Name="Name" Nullable="false" />
+          <Property Type="String" Name="Status" Nullable="false" />
+          <NavigationProperty Name="Contest" Relationship="Saimoe.Models.ContestGrouping" FromRole="Grouping" ToRole="Contest" />
+          <NavigationProperty Name="Votes" Relationship="Saimoe.Models.GroupingVote" FromRole="Grouping" ToRole="Vote" />
+        </EntityType>
+        <Association Name="ContestantGrouping">
+          <End Type="Saimoe.Models.Contestant" Role="Contestant" Multiplicity="*" />
+          <End Type="Saimoe.Models.Grouping" Role="Grouping" Multiplicity="*" />
+        </Association>
+        <Association Name="ContestGrouping">
+          <End Type="Saimoe.Models.Contest" Role="Contest" Multiplicity="1" />
+          <End Type="Saimoe.Models.Grouping" Role="Grouping" Multiplicity="*" />
+        </Association>
+        <EntityType Name="Vote">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="CreatedDate" Nullable="false" />
+          <Property Type="String" Name="GooglePlusId" Nullable="false" />
+          <Property Type="Int32" Name="Status" Nullable="false" />
+          <NavigationProperty Name="Contestant" Relationship="Saimoe.Models.ContestantVote" FromRole="Vote" ToRole="Contestant" />
+          <NavigationProperty Name="Grouping" Relationship="Saimoe.Models.GroupingVote" FromRole="Vote" ToRole="Grouping" />
+        </EntityType>
+        <Association Name="ContestantVote">
+          <End Type="Saimoe.Models.Contestant" Role="Contestant" Multiplicity="1" />
+          <End Type="Saimoe.Models.Vote" Role="Vote" Multiplicity="*" />
+        </Association>
+        <Association Name="GroupingVote">
+          <End Type="Saimoe.Models.Grouping" Role="Grouping" Multiplicity="1" />
+          <End Type="Saimoe.Models.Vote" Role="Vote" Multiplicity="*" />
         </Association>
       </Schema>
     </edmx:ConceptualModels>
@@ -264,15 +387,17 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Votings">
-      <EntityTypeMapping TypeName="IsTypeOf(Saimoe.Models.Voting)">
-        <MappingFragment StoreEntitySet="Votings">
+    <EntitySetMapping Name="Contests">
+      <EntityTypeMapping TypeName="IsTypeOf(Saimoe.Models.Contest)">
+        <MappingFragment StoreEntitySet="Contests">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
           <ScalarProperty Name="Deadline" ColumnName="Deadline" />
           <ScalarProperty Name="Description" ColumnName="Description" />
           <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="MininumVoteNumber" ColumnName="MininumVoteNumber" />
+          <ScalarProperty Name="MaximumVoteNumber" ColumnName="MaximumVoteNumber" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -285,6 +410,25 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Groupings">
+      <EntityTypeMapping TypeName="IsTypeOf(Saimoe.Models.Grouping)">
+        <MappingFragment StoreEntitySet="Groupings">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Votes">
+      <EntityTypeMapping TypeName="IsTypeOf(Saimoe.Models.Vote)">
+        <MappingFragment StoreEntitySet="Votes">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="GooglePlusId" ColumnName="GooglePlusId" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <AssociationSetMapping Name="ContestantProfile" TypeName="Saimoe.Models.ContestantProfile" StoreEntitySet="Contestants">
       <EndProperty Name="Profile">
         <ScalarProperty Name="Id" ColumnName="Profile_Id" />
@@ -293,19 +437,43 @@
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
     </AssociationSetMapping>
-    <AssociationSetMapping Name="ContestantVoting" TypeName="Saimoe.Models.ContestantVoting" StoreEntitySet="ContestantVoting">
-      <EndProperty Name="Contestant">
-        <ScalarProperty Name="Id" ColumnName="Contestants_Id" />
-      </EndProperty>
-      <EndProperty Name="Voting">
-        <ScalarProperty Name="Id" ColumnName="Votings_Id" />
-      </EndProperty>
-    </AssociationSetMapping>
     <AssociationSetMapping Name="ProfileUserCache" TypeName="Saimoe.Models.ProfileUserCache" StoreEntitySet="Profiles">
       <EndProperty Name="UserCache">
         <ScalarProperty Name="Id" ColumnName="UserCaches_Id" />
       </EndProperty>
       <EndProperty Name="Profile">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="ContestantGrouping" TypeName="Saimoe.Models.ContestantGrouping" StoreEntitySet="ContestantGrouping">
+      <EndProperty Name="Contestant">
+        <ScalarProperty Name="Id" ColumnName="Contestants_Id" />
+      </EndProperty>
+      <EndProperty Name="Grouping">
+        <ScalarProperty Name="Id" ColumnName="Groupings_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="ContestGrouping" TypeName="Saimoe.Models.ContestGrouping" StoreEntitySet="Groupings">
+      <EndProperty Name="Contest">
+        <ScalarProperty Name="Id" ColumnName="Contest_Id" />
+      </EndProperty>
+      <EndProperty Name="Grouping">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="ContestantVote" TypeName="Saimoe.Models.ContestantVote" StoreEntitySet="Votes">
+      <EndProperty Name="Contestant">
+        <ScalarProperty Name="Id" ColumnName="Contestant_Id" />
+      </EndProperty>
+      <EndProperty Name="Vote">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="GroupingVote" TypeName="Saimoe.Models.GroupingVote" StoreEntitySet="Votes">
+      <EndProperty Name="Grouping">
+        <ScalarProperty Name="Id" ColumnName="Grouping_Id" />
+      </EndProperty>
+      <EndProperty Name="Vote">
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
     </AssociationSetMapping>
@@ -328,24 +496,25 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram Name="Saimoe" >
-        <EntityTypeShape EntityType="Saimoe.Models.Contestant" Width="1.5" PointX="0.75" PointY="0.5" Height="1.779012858072917" />
-        <EntityTypeShape EntityType="Saimoe.Models.Profile" Width="1.5" PointX="3.125" PointY="0.5" Height="2.5430916341145831" />
+        <EntityTypeShape EntityType="Saimoe.Models.Contestant" Width="1.5" PointX="0.75" PointY="4.25" Height="1.779012858072917" />
+        <EntityTypeShape EntityType="Saimoe.Models.Profile" Width="1.5" PointX="3" PointY="8.375" Height="2.5430916341145831" />
         <AssociationConnector Association="Saimoe.Models.ContestantProfile">
           <ConnectorPoint PointX="2.25" PointY="1.4850162760416668" />
           <ConnectorPoint PointX="3.125" PointY="1.4850162760416668" />
         </AssociationConnector>
-        <EntityTypeShape EntityType="Saimoe.Models.Administrator" Width="1.5" PointX="7.625" PointY="0.625" Height="1.205953776041667" />
-        <EntityTypeShape EntityType="Saimoe.Models.Voting" Width="1.5" PointX="2.75" PointY="4.125" Height="1.9700325520833326" />
-        <EntityTypeShape EntityType="Saimoe.Models.UserCache" Width="1.5" PointX="5.625" PointY="0.625" Height="1.779012858072917" />
-        <AssociationConnector Association="Saimoe.Models.ContestantVoting">
-          <ConnectorPoint PointX="1.5" PointY="2.66105224609375" />
-          <ConnectorPoint PointX="1.5" PointY="5.2055261230468748" />
-          <ConnectorPoint PointX="2.75" PointY="5.2055261230468748" />
-        </AssociationConnector>
+        <EntityTypeShape EntityType="Saimoe.Models.Administrator" Width="1.5" PointX="5.75" PointY="0.75" Height="1.205953776041667" />
+        <EntityTypeShape EntityType="Saimoe.Models.Contest" Width="1.5" PointX="3" PointY="12.25" Height="1.9700325520833326" />
+        <EntityTypeShape EntityType="Saimoe.Models.UserCache" Width="1.5" PointX="5.25" PointY="8.75" Height="1.779012858072917" />
         <AssociationConnector Association="Saimoe.Models.ProfileUserCache">
           <ConnectorPoint PointX="4.625" PointY="1.5145064290364585" />
           <ConnectorPoint PointX="5.625" PointY="1.5145064290364585" />
         </AssociationConnector>
+        <EntityTypeShape EntityType="Saimoe.Models.Grouping" Width="1.5" PointX="5.25" PointY="3.625" />
+        <AssociationConnector Association="Saimoe.Models.ContestantGrouping" />
+        <AssociationConnector Association="Saimoe.Models.ContestGrouping" />
+        <EntityTypeShape EntityType="Saimoe.Models.Vote" Width="1.5" PointX="3" PointY="2.75" />
+        <AssociationConnector Association="Saimoe.Models.ContestantVote" />
+        <AssociationConnector Association="Saimoe.Models.GroupingVote" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
